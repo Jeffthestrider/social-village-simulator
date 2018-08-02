@@ -1,4 +1,5 @@
 ﻿using System;
+using Jochum.SocialVillageSimulator.SocialAspects;
 
 namespace Jochum.SocialVillageSimulator.Criteria
 {

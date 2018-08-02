@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Jochum.SocialVillageSimulator.Responses;
+using Jochum.SocialVillageSimulator.Interactions;
+using Jochum.SocialVillageSimulator.SocialAspects;
 
 namespace Jochum.SocialVillageSimulator
 {
@@ -73,12 +74,7 @@ namespace Jochum.SocialVillageSimulator
                 {
                     InteractionType playerChoiceType = (InteractionType)playerChoice;
 
-                    var interaction = new Interaction<string>
-                    {
-                        Dialogue = "Yo",
-                        InteractionType = playerChoiceType,
-                        Further = "Asdfsdf"
-                    };
+                    var interaction = InteractionGenerator.GetInteraction(player, playerChoiceType, npc);
 
                     var interactionResult = player.InteractWith(interaction, npc);
 
@@ -86,7 +82,7 @@ namespace Jochum.SocialVillageSimulator
                 }
                 else
                 {
-                    var cantHandleResponse = ResponseGenerator.GetResponse<string>(npc, new Interaction<string> { InteractionType = InteractionType.Invalid }, player);
+                    var cantHandleResponse = InteractionGenerator.GetInteraction(npc, InteractionType.Invalid, player);
 
                     npcResponse = $"{cantHandleResponse.BodyLanguage}\n\n{npc.Name}: {cantHandleResponse.Dialogue}";
                 }
