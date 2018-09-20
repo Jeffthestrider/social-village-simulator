@@ -47,6 +47,7 @@
     <Compile Include="Criteria\CriteriaGenerator.cs" />
     <Compile Include="Criteria\MoodCriteriaGenerator.cs" />
     <Compile Include="Interactions\InteractionType.cs" />
+    <Compile Include="SocialAspects\Gender.cs" />
     <Compile Include="SocialAspects\Mood.cs" />
     <Compile Include="SocialAspects\Information.cs" />
     <Compile Include="Program.cs" />

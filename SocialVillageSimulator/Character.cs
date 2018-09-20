@@ -5,9 +5,13 @@ namespace Jochum.SocialVillageSimulator
 {
     public class Character
     {
+        public bool IsPc { get; set; } 
+
         public string Name { get; set; }
 
         public Mood Mood { get; set; }
+
+        public Gender Gender { get; set; }
 
         public Interaction BeInteractedWith(Interaction interaction, Character replyingTo)
         {

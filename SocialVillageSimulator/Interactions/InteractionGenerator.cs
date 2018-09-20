@@ -14,6 +14,9 @@ namespace Jochum.SocialVillageSimulator.Interactions
                 case InteractionType.Greet:
                     return InteractionList.GreetInteractions;
 
+                case InteractionType.Introduce:
+                    return InteractionList.IntroduceInteractions;
+
                 default:
                     return InteractionList.CannotHandleInteractions;
             }
@@ -25,6 +28,9 @@ namespace Jochum.SocialVillageSimulator.Interactions
             {
                 case InteractionType.Greet:
                     return InteractionList.GreetBackInteractions;
+
+                case InteractionType.Introduce:
+                    return InteractionList.IntroduceInteractions;
 
                 default:
                     return InteractionList.CannotHandleInteractions;

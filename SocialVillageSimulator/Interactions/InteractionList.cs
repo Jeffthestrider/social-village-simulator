@@ -149,5 +149,34 @@ namespace Jochum.SocialVillageSimulator.Interactions
             new InteractionCriteria(InteractionList.CannotHandleResponse,
                 GenericCriteriaGenerator.CreateList(GenericCriteriaGenerator.AlwaysTrue)),
         };
+        
+        public static IList<Interaction> GenericHappyIntroduceInteractions => new List<Interaction>
+        {
+            new Interaction
+            {
+                BodyLanguage = "{MyGenderSubject} bows and flourishes {MyGenderPossessiveAdjective} hand. Well, you assume it's {MyGenderPossessivePronoun}. {MyGenderSubject} steals hands all the time. You don't really like {MyGenderObject}.",
+                Dialogue = "My name is {MyName}.",
+                InteractionType = InteractionType.Introduce,
+                InteractionCategory = InteractionCategory.Positive
+            },
+        };
+        public static IList<Interaction> GenericDefaultIntroduceInteractions => new List<Interaction>
+        {
+            new Interaction
+            {
+                BodyLanguage = "{MyName} looks at {NameOrYou}.",
+                Dialogue = "My name is {MyName}. I am a {MyJob}",
+                InteractionType = InteractionType.Introduce,
+                InteractionCategory = InteractionCategory.Neutral
+            },
+        };
+
+        public static InteractionCriteria[] IntroduceInteractions =
+        {
+            new InteractionCriteria(GenericHappyIntroduceInteractions,
+                GenericCriteriaGenerator.CreateList(MoodCriteriaGenerator.SpeakerIsHappy)),
+            new InteractionCriteria(GenericDefaultIntroduceInteractions,
+                GenericCriteriaGenerator.CreateList(GenericCriteriaGenerator.AlwaysTrue)),
+        };
     }
 }

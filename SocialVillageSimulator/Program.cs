@@ -10,17 +10,23 @@ namespace Jochum.SocialVillageSimulator
     {
         static Character CreatePlayer()
         {
-            return new Character {
+            return new Character
+            {
                 Name = "Jeff",
-                Mood = Mood.Sad
+                Gender = Gender.Male,
+                Mood = Mood.Angry,
+                IsPc = true
             };
         }
 
         static Character CreateNpc()
         {
-            return new Character {
+            return new Character
+            {
                 Name = "Jill",
-                Mood = Mood.Happy
+                Gender = Gender.Female,
+                Mood = Mood.Happy,
+                IsPc = false
             };
         }
 

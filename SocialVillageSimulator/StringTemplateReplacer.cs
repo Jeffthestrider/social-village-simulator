@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Jochum.SocialVillageSimulator.SocialAspects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -9,14 +10,35 @@ namespace Jochum.SocialVillageSimulator
     {
         static Dictionary<string, Func<Character, string>> templatesForSpeaker = new Dictionary<string, Func<Character, string>>
         {
-            { "{MyName}", speaker => speaker.Name }
+            { "{MyName}", speaker => speaker.Name },
+
+            { "{MyMood}", speaker => speaker.Mood.ToString() },
+
+            { "{MyGender}", speaker => speaker.Gender.ToString() },
+            { "{MyGenderSubject}", speaker => speaker.Gender.ToSubject() },
+            { "{MyGenderObject}", speaker => speaker.Gender.ToObject() },
+            { "{MyGenderPossessivePronoun}", speaker => speaker.Gender.ToPossessivePronoun() },
+            { "{MyGenderPossessiveAdjective}", speaker => speaker.Gender.ToPossessiveAdjective() },
         };
 
         static Dictionary<string, Func<Character, string>> templatesForSpokenTo = new Dictionary<string, Func<Character, string>>
         {
-            { "{Name}", replier => replier.Name }
+            { "{Name}", replier => replier.Name },
+            { "{NameOrYou}", replier => replier.IsPc ? "you" : replier.Name.ToString() },
+
+            { "{Mood}", replier => replier.Mood.ToString() },
+
+            { "{Gender}", replier => replier.Gender.ToString() },
+            { "{GenderSubject}", replier => replier.Gender.ToSubject() },
+            { "{GenderSubjectOrYou}", replier => replier.IsPc ? "you" : replier.Gender.ToSubject() },
+            { "{GenderObject}", replier => replier.Gender.ToObject() },
+            { "{GenderObjectOrYou}", replier => replier.IsPc ? "you" : replier.Gender.ToObject() },
+            { "{GenderPossessivePronoun}", replier => replier.Gender.ToPossessivePronoun() },
+            { "{GenderPossessivePronounOrYou}", replier => replier.IsPc ? "yours" : replier.Gender.ToPossessivePronoun() },
+            { "{GenderPossessiveAdjective}", replier => replier.Gender.ToPossessiveAdjective() },
+            { "{GenderPossessiveAdjectiveOrYou}", replier => replier.IsPc ? "yours" : replier.Gender.ToPossessiveAdjective() },
         };
-        
+
         public static string FillInTemplate(Character speaker, string templateString, Character spokenTo)
         {
             var respondeeMatches = Regex.Matches(templateString, "[{][^}]+[}]")
