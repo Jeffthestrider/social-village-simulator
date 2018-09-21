@@ -1,0 +1,9 @@
+﻿[
+{
+	dialogue : "Test",
+	bodyLanguage : "Test Body Language",
+	interactionType : "Greet",
+	interactionCategory : "Neutral",
+	CriteriaNames : ["Speaker.IsHappy", "SpokenTo.IsSad"]
+},
+]

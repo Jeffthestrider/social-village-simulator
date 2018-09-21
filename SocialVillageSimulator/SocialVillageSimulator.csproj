@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,7 +49,7 @@
   <ItemGroup>
     <Compile Include="Character.cs" />
     <Compile Include="Criteria\CriteriaGenerator.cs" />
-    <Compile Include="Criteria\MoodCriteriaGenerator.cs" />
+    <Compile Include="DataReader\GameDataReader.cs" />
     <Compile Include="Interactions\InteractionType.cs" />
     <Compile Include="SocialAspects\Gender.cs" />
     <Compile Include="SocialAspects\Mood.cs" />
@@ -63,6 +67,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\Interactions.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

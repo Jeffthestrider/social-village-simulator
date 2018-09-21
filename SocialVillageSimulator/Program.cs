@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Jochum.SocialVillageSimulator.Interactions;
 using Jochum.SocialVillageSimulator.SocialAspects;
+using Jochum.SocialVillageSimulator.Criteria;
+using Jochum.SocialVillageSimulator.DataReader;
 
 namespace Jochum.SocialVillageSimulator
 {
@@ -50,6 +52,9 @@ namespace Jochum.SocialVillageSimulator
         static void Main(string[] args)
         {
             MasterRandom.InitializeRandom(4);
+
+            var a = new GameDataReader();
+            var interactions = a.GetData<Interaction>("Data\\Interactions.json");
 
             Character player = CreatePlayer();
             Character npc = CreateNpc();

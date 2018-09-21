@@ -5,6 +5,8 @@ using Jochum.SocialVillageSimulator.Criteria;
 
 namespace Jochum.SocialVillageSimulator.Interactions
 {
+
+
     public static class InteractionGenerator
     {
         private static InteractionCriteria[] GetPossibleInteractions(InteractionType interactionType)

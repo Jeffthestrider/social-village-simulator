@@ -1,17 +1,20 @@
 ﻿using System.Collections.Generic;
 using Jochum.SocialVillageSimulator.Criteria;
+using System;
+using System.Linq;
 
 namespace Jochum.SocialVillageSimulator.Interactions
 {
-    public static partial class InteractionList
+    public static class InteractionList
     {
+        private static ICriteriaGenerator _criteriaGenerator = new StubCriteriaGenerator();
 
         public static InteractionCriteria[] GreetInteractions => new []
         {
             new InteractionCriteria(GenericHappyGreetings,
-                GenericCriteriaGenerator.CreateList(MoodCriteriaGenerator.SpeakerIsHappy)),
+                CreateList(_criteriaGenerator.GetCriteria("Speaker.IsHappy"))),
             new InteractionCriteria(GenericDefaultGreetings,
-                GenericCriteriaGenerator.CreateList(GenericCriteriaGenerator.AlwaysTrue)),
+                CreateList(_criteriaGenerator.GetCriteria("AlwaysTrue"))),
         };
 
         public static IList<Interaction> GenericHappyGreetings => new List<Interaction>
@@ -121,15 +124,15 @@ namespace Jochum.SocialVillageSimulator.Interactions
         public static InteractionCriteria[] GreetBackInteractions =
         {
             new InteractionCriteria(GenericHappyResponses,
-                GenericCriteriaGenerator.CreateList(MoodCriteriaGenerator.SpeakerIsHappy)),
+                CreateList(_criteriaGenerator.GetCriteria("Speaker.IsHappy"))),
             new InteractionCriteria(GenericDefaultResponses,
-                GenericCriteriaGenerator.CreateList(GenericCriteriaGenerator.AlwaysTrue)),
+                CreateList(_criteriaGenerator.GetCriteria("AlwaysTrue"))),
             new InteractionCriteria(GenericAngryResponses,
-                GenericCriteriaGenerator.CreateList(MoodCriteriaGenerator.SpeakerIsAngry)),
+                CreateList(_criteriaGenerator.GetCriteria("Speaker.IsAngry"))),
             new InteractionCriteria(HappyAndNoticingUpsetResponses,
-                GenericCriteriaGenerator.CreateList(MoodCriteriaGenerator.SpeakerIsHappy, MoodCriteriaGenerator.SpokenToIsAngry)),
+                CreateList(_criteriaGenerator.GetCriteria("Speaker.IsHappy"), _criteriaGenerator.GetCriteria("SpokenTo.IsAngry"))),
             new InteractionCriteria(HappyAndNoticingUpsetResponses,
-                GenericCriteriaGenerator.CreateList(MoodCriteriaGenerator.SpeakerIsHappy, MoodCriteriaGenerator.SpokenToIsSad))
+                CreateList(_criteriaGenerator.GetCriteria("Speaker.IsHappy"), _criteriaGenerator.GetCriteria("SpokenTo.IsSad")))
         };
 
 
@@ -146,8 +149,8 @@ namespace Jochum.SocialVillageSimulator.Interactions
 
         public static InteractionCriteria[] CannotHandleInteractions => new []
         {
-            new InteractionCriteria(InteractionList.CannotHandleResponse,
-                GenericCriteriaGenerator.CreateList(GenericCriteriaGenerator.AlwaysTrue)),
+            new InteractionCriteria(CannotHandleResponse,
+                CreateList(_criteriaGenerator.GetCriteria("AlwaysTrue"))),
         };
         
         public static IList<Interaction> GenericHappyIntroduceInteractions => new List<Interaction>
@@ -174,9 +177,14 @@ namespace Jochum.SocialVillageSimulator.Interactions
         public static InteractionCriteria[] IntroduceInteractions =
         {
             new InteractionCriteria(GenericHappyIntroduceInteractions,
-                GenericCriteriaGenerator.CreateList(MoodCriteriaGenerator.SpeakerIsHappy)),
+                CreateList(_criteriaGenerator.GetCriteria("Speaker.IsHappy"))),
             new InteractionCriteria(GenericDefaultIntroduceInteractions,
-                GenericCriteriaGenerator.CreateList(GenericCriteriaGenerator.AlwaysTrue)),
+                CreateList(_criteriaGenerator.GetCriteria("AlwaysTrue"))),
         };
+        
+        private static IList<Func<Character, Character, bool>> CreateList(params Func<Character, Character, bool>[] criteriaList)
+        {
+            return criteriaList.ToList();
+        }
     }
 }
