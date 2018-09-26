@@ -1,9 +1,9 @@
 ﻿[
 {
-	dialogue : "Test",
+	name : "Test",
+	dialogue : "Test Dialogue",
 	bodyLanguage : "Test Body Language",
 	interactionType : "Greet",
-	interactionCategory : "Neutral",
-	CriteriaNames : ["Speaker.IsHappy", "SpokenTo.IsSad"]
+	interactionCategory : "Neutral"
 },
 ]

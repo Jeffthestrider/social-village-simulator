@@ -1,0 +1,6 @@
+﻿[
+{
+	interactions : ["Test"]
+	criteriaNames : ["Speaker.IsHappy", "SpokenTo.IsSad"]
+},
+]

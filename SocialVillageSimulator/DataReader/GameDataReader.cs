@@ -10,14 +10,21 @@ namespace Jochum.SocialVillageSimulator.DataReader
 {
     public interface IGameDataReader
     {
-        IList<T> GetData<T>(string filename);
+        IList<T> GetGameData<T>();
     }
 
-    public class GameDataReader: IGameDataReader
+    public class GameDataJsonFileReader: IGameDataReader
     {
-        public IList<T> GetData<T>(string filename)
+        private string _filename;
+
+        public GameDataJsonFileReader(string filename)
         {
-            var input = File.ReadAllText(filename);
+            _filename = filename;
+        }
+
+        public IList<T> GetGameData<T>()
+        {
+            var input = File.ReadAllText(_filename);
             return JsonConvert.DeserializeObject<List<T>>(input);
         }
     }

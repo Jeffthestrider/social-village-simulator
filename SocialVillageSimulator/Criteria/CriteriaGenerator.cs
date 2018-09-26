@@ -10,6 +10,54 @@ namespace Jochum.SocialVillageSimulator.Criteria
         Func<Character, Character, bool> GetCriteria(string criteriaName);
     }
 
+    public class CriteriaParser
+    {
+        public bool IsValid(Character speaker, Character spokenTo, string criteriaName)
+        {
+            var criteriaComponents = criteriaName.Split('.');
+            var whoToCheck = criteriaComponents[0].ToLower();
+            var whatToCheck = criteriaComponents[1].ToLower();
+            var criteriaValue = criteriaComponents[2].ToLower();
+            Character who = null;
+
+            if (whoToCheck == "speaker")
+            {
+                who = speaker;
+            }
+            else if (whoToCheck == "spokento")
+            {
+                who = spokenTo;
+            }
+            else
+            {
+                throw new ArgumentException($"Criteria expression cannot parse {whoToCheck}.");
+            }
+            
+            if (whatToCheck == "mood")
+            {
+                Mood parsedMood = GetEnumValue<Mood>(criteriaValue);               
+                
+
+                return who.Mood == parsedMood;
+            } else
+            {
+                throw new ArgumentException($"Criteria expression cannot parse {whatToCheck}.");
+            }
+        }
+        
+        private T GetEnumValue<T> (string value) where T : struct
+        {
+            T parsedType;
+            bool successful = Enum.TryParse(value, true, out parsedType);
+            if (!successful)
+            {
+                throw new ArgumentException($"Criteria expression cannot parse {value}");
+            }
+
+            return parsedType;
+        }
+    }
+
     public class StubCriteriaGenerator: ICriteriaGenerator
     {
         private Dictionary<string, Func<Character, Character, bool>> CriteriaDictionary = new Dictionary<string, Func<Character, Character, bool>>();

@@ -2,15 +2,40 @@
 using System.Collections.Generic;
 using System.Linq;
 using Jochum.SocialVillageSimulator.Criteria;
+using Jochum.SocialVillageSimulator.DataReader;
 
 namespace Jochum.SocialVillageSimulator.Interactions
 {
 
-
-    public static class InteractionGenerator
+    public interface IInteractionGenerator
     {
-        private static InteractionCriteria[] GetPossibleInteractions(InteractionType interactionType)
+        Interaction GetResponse(Character speaker, Interaction interaction, Character spokenTo);
+        
+        Interaction GetInteraction(Character speaker, InteractionType interactionType, Character spokenTo);
+    }
+
+    public class InteractionGenerator : IInteractionGenerator
+    {
+        IGameDataReader _dataReader;
+
+        public InteractionGenerator(IGameDataReader dataReader)
         {
+            _dataReader = dataReader;
+            var interactions = _dataReader.GetGameData<Interaction>();
+        }
+
+        private InteractionCriteria[] GetPossibleInteractions(InteractionType interactionType)
+        {
+            var interactions = _dataReader.GetGameData<Interaction>();
+            var interactionsFilteredByType = interactions.Where(p => p.InteractionType == interactionType);
+
+            if (interactionsFilteredByType.Count() == 0)
+            {
+                return InteractionList.CannotHandleInteractions;
+            }
+
+            //return interactionsFilteredByType.ToArray();
+
             switch (interactionType)
             {
                 case InteractionType.Greet:
@@ -24,7 +49,7 @@ namespace Jochum.SocialVillageSimulator.Interactions
             }
         }
 
-        private static InteractionCriteria[] GetPossibleResponses(InteractionType interactionType)
+        private InteractionCriteria[] GetPossibleResponses(InteractionType interactionType)
         {
             switch (interactionType)
             {
@@ -39,7 +64,7 @@ namespace Jochum.SocialVillageSimulator.Interactions
             }
         }
 
-        public static Interaction GetResponse(Character speaker, Interaction interaction, Character spokenTo)
+        public Interaction GetResponse(Character speaker, Interaction interaction, Character spokenTo)
         {
             var validResponses = GetPossibleResponses(interaction.InteractionType).Where(criteria => criteria.IsValid(speaker, spokenTo)).SelectMany(r => r.Interactions).ToArray();
             var result = GetRandomResponse(validResponses);
@@ -51,7 +76,7 @@ namespace Jochum.SocialVillageSimulator.Interactions
         }
 
 
-        public static Interaction GetInteraction(Character speaker, InteractionType interactionType, Character spokenTo)
+        public Interaction GetInteraction(Character speaker, InteractionType interactionType, Character spokenTo)
         {
             var validResponses = GetPossibleInteractions(interactionType).Where(criteria => criteria.IsValid(speaker, spokenTo)).SelectMany(r => r.Interactions).ToArray();
             var result = GetRandomResponse(validResponses);
@@ -62,7 +87,7 @@ namespace Jochum.SocialVillageSimulator.Interactions
             return result;
         }
 
-        private static Interaction GetRandomResponse(Interaction[] interactions)
+        private Interaction GetRandomResponse(Interaction[] interactions)
         {
             if (interactions == null) throw new ArgumentNullException(nameof(interactions));
 
