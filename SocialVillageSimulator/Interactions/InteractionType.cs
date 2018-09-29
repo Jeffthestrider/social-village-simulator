@@ -1,4 +1,4 @@
-﻿namespace Jochum.SocialVillageSimulator
+﻿namespace Jochum.SocialVillageSimulator.Interactions
 {
     public enum InteractionType
     {
@@ -11,6 +11,7 @@
         ShareWith,
         Request,
         Give,
-        Threaten
+        Thank,
+        Threaten,
     }
 }

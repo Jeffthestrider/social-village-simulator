@@ -16,7 +16,7 @@ namespace Jochum.SocialVillageSimulator
             {
                 Name = "Jeff",
                 Gender = Gender.Male,
-                Mood = Mood.Angry,
+                Mood = Mood.Happy,
                 IsPc = true
             };
         }
@@ -53,9 +53,9 @@ namespace Jochum.SocialVillageSimulator
         {
             MasterRandom.InitializeRandom(4);
 
-            var a = new GameDataJsonFileReader("Data\\Interactions.json");
-            //var interactions = a.GetGameData<Interaction>();
-            var interactionGenerator = new InteractionGenerator(a);
+            var gameDataReader = new GameDataJsonFileReader("Data\\Interactions.json");
+
+            var interactionGenerator = new InteractionGenerator(gameDataReader.GetInteractions(), new CriteriaParser());
 
             Character player = CreatePlayer(interactionGenerator);
             Character npc = CreateNpc(interactionGenerator);
@@ -94,7 +94,9 @@ namespace Jochum.SocialVillageSimulator
                 }
                 else
                 {
-                    var cantHandleResponse = interactionGenerator.GetInteraction(npc, InteractionType.Invalid, player);
+                    var invalidCriteria = interactionGenerator.GetInteraction(npc, InteractionType.Invalid, player);
+
+                    var cantHandleResponse = invalidCriteria.GetAFilledInInteraction(npc, player);
 
                     npcResponse = $"{cantHandleResponse.BodyLanguage}\n\n{npc.Name}: {cantHandleResponse.Dialogue}";
                 }

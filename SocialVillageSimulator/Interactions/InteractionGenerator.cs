@@ -10,90 +10,79 @@ namespace Jochum.SocialVillageSimulator.Interactions
     public interface IInteractionGenerator
     {
         Interaction GetResponse(Character speaker, Interaction interaction, Character spokenTo);
-        
+
         Interaction GetInteraction(Character speaker, InteractionType interactionType, Character spokenTo);
     }
 
     public class InteractionGenerator : IInteractionGenerator
     {
-        IGameDataReader _dataReader;
+        private ICriteriaParser _criteriaParser;
+        private IList<Interaction> _interactions;
 
-        public InteractionGenerator(IGameDataReader dataReader)
+        public InteractionGenerator(IList<Interaction> interactions, ICriteriaParser criteriaParser)
         {
-            _dataReader = dataReader;
-            var interactions = _dataReader.GetGameData<Interaction>();
+            _interactions = interactions;
+
+            _criteriaParser = criteriaParser;
         }
 
-        private InteractionCriteria[] GetPossibleInteractions(InteractionType interactionType)
+        private IList<Interaction> GetPossibleInteractions(InteractionType interactionType)
         {
-            var interactions = _dataReader.GetGameData<Interaction>();
-            var interactionsFilteredByType = interactions.Where(p => p.InteractionType == interactionType);
+            var interactionsFilteredByType = _interactions.Where(p => p.InteractionType == interactionType).ToList();
 
-            if (interactionsFilteredByType.Count() == 0)
+            if (!interactionsFilteredByType.Any())
             {
-                return InteractionList.CannotHandleInteractions;
+                var invalidInteractions = _interactions.Where(p => p.InteractionType == InteractionType.Invalid).ToList();
+
+                return invalidInteractions;
             }
 
-            //return interactionsFilteredByType.ToArray();
-
-            switch (interactionType)
-            {
-                case InteractionType.Greet:
-                    return InteractionList.GreetInteractions;
-
-                case InteractionType.Introduce:
-                    return InteractionList.IntroduceInteractions;
-
-                default:
-                    return InteractionList.CannotHandleInteractions;
-            }
-        }
-
-        private InteractionCriteria[] GetPossibleResponses(InteractionType interactionType)
-        {
-            switch (interactionType)
-            {
-                case InteractionType.Greet:
-                    return InteractionList.GreetBackInteractions;
-
-                case InteractionType.Introduce:
-                    return InteractionList.IntroduceInteractions;
-
-                default:
-                    return InteractionList.CannotHandleInteractions;
-            }
+            return interactionsFilteredByType;
         }
 
         public Interaction GetResponse(Character speaker, Interaction interaction, Character spokenTo)
         {
-            var validResponses = GetPossibleResponses(interaction.InteractionType).Where(criteria => criteria.IsValid(speaker, spokenTo)).SelectMany(r => r.Interactions).ToArray();
-            var result = GetRandomResponse(validResponses);
+            // TODO: This needs a way to get interactions not by speaker's interaction type but by some way the spoken would respond.
 
-            result.BodyLanguage = StringTemplateReplacer.FillInTemplate(speaker, result.BodyLanguage, spokenTo);
-            result.Dialogue = StringTemplateReplacer.FillInTemplate(speaker, result.Dialogue, spokenTo);
+            Interaction result = GetInteraction(speaker, interaction.InteractionType, spokenTo);
 
-            return result;
+            return result.GetAFilledInInteraction(speaker, spokenTo);
         }
-
 
         public Interaction GetInteraction(Character speaker, InteractionType interactionType, Character spokenTo)
         {
-            var validResponses = GetPossibleInteractions(interactionType).Where(criteria => criteria.IsValid(speaker, spokenTo)).SelectMany(r => r.Interactions).ToArray();
-            var result = GetRandomResponse(validResponses);
+            var possibleInteractions = GetPossibleInteractions(interactionType);
+            List<Interaction> validInteractions = GetInteractionsMatchingAllCriteria(speaker, spokenTo, possibleInteractions)
+                .ToList();
 
-            result.BodyLanguage = StringTemplateReplacer.FillInTemplate(speaker, result.BodyLanguage, spokenTo);
-            result.Dialogue = StringTemplateReplacer.FillInTemplate(speaker, result.Dialogue, spokenTo);
+            Interaction result;
+
+            if (validInteractions.Any())
+            {
+                result = GetRandomResponse(validInteractions);
+            }
+            else
+            {
+                result = GetInteraction(speaker, InteractionType.Invalid, spokenTo);
+            }
 
             return result;
         }
 
-        private Interaction GetRandomResponse(Interaction[] interactions)
+        private IEnumerable<Interaction> GetInteractionsMatchingAllCriteria(Character speaker, Character spokenTo, 
+            IList<Interaction> possibleInteractions)
         {
-            if (interactions == null) throw new ArgumentNullException(nameof(interactions));
+            return possibleInteractions
+                .Where(criteria =>
+                    criteria.InteractionCriteriaExpressions.Any(listOfAndCriteria => listOfAndCriteria.All(expression =>
+                        _criteriaParser.IsValid(speaker, spokenTo, expression))));
+        }
 
-            var nextResponseIndex = MasterRandom.Rand.Next(interactions.Length);
+        private T GetRandomResponse<T>(IList<T> list)
+        {
+            if (list == null) throw new ArgumentNullException(nameof(list));
 
-            return interactions[nextResponseIndex];
+            return list[MasterRandom.Rand.Next(list.Count)];
         }
     }
 }

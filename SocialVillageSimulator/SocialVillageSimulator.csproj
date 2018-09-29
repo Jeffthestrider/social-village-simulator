@@ -48,7 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Character.cs" />
-    <Compile Include="Criteria\CriteriaGenerator.cs" />
+    <Compile Include="Criteria\CriteriaParser.cs" />
     <Compile Include="DataReader\GameDataReader.cs" />
     <Compile Include="Interactions\InteractionType.cs" />
     <Compile Include="SocialAspects\Gender.cs" />
@@ -67,9 +67,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Data\InteractionCri.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Data\InteractionCriteria.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

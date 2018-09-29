@@ -23,8 +23,7 @@ namespace Jochum.SocialVillageSimulator
         public Interaction BeInteractedWith(Interaction interaction, Character replyingTo)
         {
             // Make changes here
-
-            // TODO: Singleton? Passed in as member to character initialization?
+            
             return _interactionGenerator.GetResponse(this, interaction, replyingTo);
         }
 
