@@ -53,7 +53,7 @@ namespace Jochum.SocialVillageSimulator
         {
             MasterRandom.InitializeRandom(4);
 
-            var gameDataReader = new GameDataJsonFileReader("Data\\Interactions.json");
+            IGameDataReader gameDataReader = new GameDataJsonFileReader("Data\\Interactions.json");
 
             var interactionGenerator = new InteractionGenerator(gameDataReader.GetInteractions(), new CriteriaParser());
 
