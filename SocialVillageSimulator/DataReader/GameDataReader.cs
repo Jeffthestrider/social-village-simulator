@@ -11,11 +11,28 @@ namespace Jochum.SocialVillageSimulator.DataReader
 {
     public interface IGameDataReader
     {
-        IList<Interaction> GetInteractions();
+        IEnumerable<Interaction> GetInteractions();
     }
 
     public class GameDataJsonFileReader: IGameDataReader
     {
+        private struct InteractionJsonModel
+        {
+
+            public string Name { get; set; }
+            public string Dialogue { get; set; }
+            public string BodyLanguage { get; set; }
+        }
+
+        private struct InteractionCriteriaJsonModel
+        {
+            public IList<IList<string>> InteractionCriteriaExpressions { get; set; }
+            public InteractionType InteractionType { get; set; }
+            public InteractionCategory InteractionCategory { get; set; }
+            public IList<InteractionJsonModel> Interactions { get; set; }
+        }
+
+
         private readonly string _interactionFilename;
         
         public GameDataJsonFileReader(string interactionFilename)
@@ -23,9 +40,26 @@ namespace Jochum.SocialVillageSimulator.DataReader
             _interactionFilename = interactionFilename;
         }
 
-        public IList<Interaction> GetInteractions()
+        public IEnumerable<Interaction> GetInteractions()
         {
-            return GetGameData<Interaction>(_interactionFilename);
+            var interactionCriteriaJsonModels = GetGameData<InteractionCriteriaJsonModel>(_interactionFilename);
+
+            foreach (var interactionCriteriaJsonModel in interactionCriteriaJsonModels)
+            {
+                foreach (var interactionJsonModel in interactionCriteriaJsonModel.Interactions)
+                {
+                    yield return new Interaction
+                    {
+                        BodyLanguage = interactionJsonModel.BodyLanguage,
+                        Dialogue = interactionJsonModel.Dialogue,
+                        Name = interactionJsonModel.Name,
+                        InteractionCategory = interactionCriteriaJsonModel.InteractionCategory,
+                        InteractionType = interactionCriteriaJsonModel.InteractionType,
+                        InteractionCriteriaExpressions = interactionCriteriaJsonModel.InteractionCriteriaExpressions
+                    };
+                }
+            }
+
         }
 
         private IList<T> GetGameData<T>(string filename)

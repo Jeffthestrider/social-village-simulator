@@ -1,43 +1,109 @@
 ﻿[
 	{
-		"name" : "Test",
-		"dialogue" : "Test Dialogue",
-		"bodyLanguage" : "Test Body Language",
 		"interactionType" : "Greet",
 		"interactionCategory" : "Neutral",
-		"interactionCriteriaExpressions" : [["Speaker.Mood.Happy", "SpokenTo.Mood.Sad"]]
+		"interactionCriteriaExpressions" : [["Speaker.Mood.Happy", "SpokenTo.Mood.Sad"]],
+		"interactions": 
+		[
+			{
+				"name" : "Test",
+				"dialogue" : "Test Dialogue",
+				"bodyLanguage" : "Test Body Language"
+			}
+		]
 	},
 	{
-		"name" : "Invalid",
-		"dialogue" : "I'm sorry, my responses are limited. You must ask the right questions.",
-		"bodyLanguage" : "{MyName}'s face goes blank.",
 		"interactionType" : "Invalid",
 		"interactionCategory" : "Neutral",
-		"interactionCriteriaExpressions" : [["AlwaysTrue"]]
-	},
-
-	{
-		"name" : "GenericHappyGreet1",
-		"dialogue" : "Hello {Name}!",
-		"bodyLanguage" : "{MyName} waves.",
-		"interactionType" : "Greet",
-		"interactionCategory" : "Positive",
-		"interactionCriteriaExpressions" : [["Speaker.Mood.Happy"]]
+		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
+		"interactions" : [
+			{
+				"name" : "Invalid",
+				"dialogue" : "I'm sorry, my responses are limited. You must ask the right questions.",
+				"bodyLanguage" : "{MyName}'s face goes blank."
+			}
+		]
 	},
 	{
-		"name" : "GenericHappyGreet2",
-		"dialogue" : "Hi {Name}!",
-		"bodyLanguage" : "{MyName} waves.",
 		"interactionType" : "Greet",
 		"interactionCategory" : "Positive",
-		"interactionCriteriaExpressions" : [["Speaker.Mood.Happy"]]
+		"interactionCriteriaExpressions" : [["Speaker.Mood.Happy"]],
+		"interactions" : 
+		[
+			{
+				"name" : "GenericHappyGreet1",
+				"dialogue" : "Hello {Name}!",
+				"bodyLanguage" : "{MyName} waves."
+			},
+			{
+				
+				"name" : "GenericHappyGreet2",
+				"dialogue" : "Hi {Name}!",
+				"bodyLanguage" : "{MyName} waves."
+			},
+			{
+				"name" : "GenericHappyGreet3",
+				"dialogue" : "Yo {Name}, good to see you!",
+				"bodyLanguage" : "{MyName} smiles and waves."
+			}
+		]
 	},
 	{
-		"name" : "GenericHappyGreet3",
-		"dialogue" : "Yo {Name}, good to see you!",
-		"bodyLanguage" : "{MyName} smiles and waves.",
 		"interactionType" : "Greet",
+		"interactionCategory" : "Neutral",
+		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
+		"interactions" : 
+		[
+			{
+				"name" : "GenericNeutralGreet1",
+				"dialogue" : "Hey {Name}.",
+				"bodyLanguage" : "{MyName} looks up."
+			},
+			{
+				
+				"name" : "GenericNeutralGreet2",
+				"dialogue" : "Hi {Name}.",
+				"bodyLanguage" : "{MyName} glances up."
+			}
+		]
+	},
+	{
+		"interactionType" : "Greet",
+		"interactionCategory" : "Negative",
+		"interactionCriteriaExpressions" : [["Speaker.Mood.Angry"]],
+		"interactions" : 
+		[
+			{
+				"name" : "GenericNegativeGreet1",
+				"dialogue" : "What do you want?",
+				"bodyLanguage" : "{MyName} scowls at {NameOrYou}."
+			}
+		]
+	},
+	{
+		"interactionType" : "Greet",
+		"interactionCategory" : "Neutral",
+		"interactionCriteriaExpressions" : [["SpokenTo.Mood.Sad"]],
+		"interactions" : 
+		[
+			{
+				"name" : "NoticingSadGreet1",
+				"dialogue" : "Hey {Name}, you look down.",
+				"bodyLanguage" : "{MyName} looks at {NameOrYou}."
+			}
+		]
+	},
+	{
+		"interactionType" : "Introduce",
 		"interactionCategory" : "Positive",
-		"interactionCriteriaExpressions" : [["Speaker.Mood.Happy"]]
+		"interactionCriteriaExpressions" : [["Speaker.Mood.Happy"]],
+		"interactions" : 
+		[
+			{
+				"name" : "HappyIntroduction1",
+				"dialogue" : "My name is {MyName}.",
+				"bodyLanguage" : "{MyGenderSubject} bows and flourishes {MyGenderPossessiveAdjective} hand. Well, you assume it's {MyGenderPossessivePronoun}. {MyGenderSubject} steals hands all the time. You don't really like {MyGenderObject}."
+			}
+		]
 	}
 ]

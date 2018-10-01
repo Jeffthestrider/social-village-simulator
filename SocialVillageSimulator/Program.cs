@@ -55,7 +55,7 @@ namespace Jochum.SocialVillageSimulator
 
             IGameDataReader gameDataReader = new GameDataJsonFileReader("Data\\Interactions.json");
 
-            var interactionGenerator = new InteractionGenerator(gameDataReader.GetInteractions(), new CriteriaParser());
+            var interactionGenerator = new InteractionGenerator(gameDataReader.GetInteractions().ToList(), new CriteriaParser());
 
             Character player = CreatePlayer(interactionGenerator);
             Character npc = CreateNpc(interactionGenerator);
