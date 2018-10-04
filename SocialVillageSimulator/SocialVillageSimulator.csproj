@@ -48,9 +48,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Character.cs" />
-    <Compile Include="Criteria\CriteriaParser.cs" />
+    <Compile Include="Parsers\ActionParser.cs" />
+    <Compile Include="Parsers\CriteriaParser.cs" />
     <Compile Include="DataReader\GameDataReader.cs" />
     <Compile Include="Interactions\InteractionType.cs" />
+    <Compile Include="Parsers\ParserHelper.cs" />
     <Compile Include="SocialAspects\Gender.cs" />
     <Compile Include="SocialAspects\Mood.cs" />
     <Compile Include="SocialAspects\Information.cs" />
@@ -59,7 +61,6 @@
     <Compile Include="Interactions\InteractionCategory.cs" />
     <Compile Include="Interactions\Interaction.cs" />
     <Compile Include="Interactions\InteractionList.cs" />
-    <Compile Include="Interactions\InteractionCriteria.cs" />
     <Compile Include="Interactions\InteractionGenerator.cs" />
     <Compile Include="Seed.cs" />
     <Compile Include="StringTemplateReplacer.cs" />

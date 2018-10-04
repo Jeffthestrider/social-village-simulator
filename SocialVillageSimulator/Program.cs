@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Jochum.SocialVillageSimulator.Interactions;
 using Jochum.SocialVillageSimulator.SocialAspects;
-using Jochum.SocialVillageSimulator.Criteria;
 using Jochum.SocialVillageSimulator.DataReader;
+using Jochum.SocialVillageSimulator.Parsers;
 
 namespace Jochum.SocialVillageSimulator
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Jochum.SocialVillageSimulator.Criteria;
 using Jochum.SocialVillageSimulator;
+using Jochum.SocialVillageSimulator.Parsers;
 using Jochum.SocialVillageSimulator.SocialAspects;
 
 namespace SovialVillageSimulator.Tests

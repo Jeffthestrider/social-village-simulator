@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Jochum.SocialVillageSimulator.Criteria;
 using System;
 using System.Linq;
 

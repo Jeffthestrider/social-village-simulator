@@ -2,6 +2,7 @@
 	{
 		"interactionType" : "Greet",
 		"interactionCategory" : "Neutral",
+		"action" : "SpokenTo.Neutrally.Greet",
 		"interactionCriteriaExpressions" : [["Speaker.Mood.Happy", "SpokenTo.Mood.Sad"]],
 		"interactions": 
 		[
@@ -15,6 +16,7 @@
 	{
 		"interactionType" : "Invalid",
 		"interactionCategory" : "Neutral",
+		"action" : "SpokenTo.Neutrally.BlanksOut",
 		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
 		"interactions" : [
 			{
@@ -27,6 +29,7 @@
 	{
 		"interactionType" : "Greet",
 		"interactionCategory" : "Positive",
+		"action" : "SpokenTo.Positively.Greet",
 		"interactionCriteriaExpressions" : [["Speaker.Mood.Happy"]],
 		"interactions" : 
 		[
@@ -51,6 +54,7 @@
 	{
 		"interactionType" : "Greet",
 		"interactionCategory" : "Neutral",
+		"action" : "SpokenTo.Neutrally.Greet",
 		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
 		"interactions" : 
 		[
@@ -70,6 +74,7 @@
 	{
 		"interactionType" : "Greet",
 		"interactionCategory" : "Negative",
+		"action" : "SpokenTo.Negatively.Greet",
 		"interactionCriteriaExpressions" : [["Speaker.Mood.Angry"]],
 		"interactions" : 
 		[
@@ -83,6 +88,7 @@
 	{
 		"interactionType" : "Greet",
 		"interactionCategory" : "Neutral",
+		"action" : "SpokenTo.Neutrally.Greet",
 		"interactionCriteriaExpressions" : [["SpokenTo.Mood.Sad"]],
 		"interactions" : 
 		[
@@ -96,6 +102,7 @@
 	{
 		"interactionType" : "Introduce",
 		"interactionCategory" : "Positive",
+		"action" : "SpokenTo.Positively.Introduce",
 		"interactionCriteriaExpressions" : [["Speaker.Mood.Happy"]],
 		"interactions" : 
 		[

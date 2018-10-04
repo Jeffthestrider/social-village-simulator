@@ -1,9 +1,7 @@
-﻿using Jochum.SocialVillageSimulator.SocialAspects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using Jochum.SocialVillageSimulator.SocialAspects;
 
-namespace Jochum.SocialVillageSimulator.Criteria
+namespace Jochum.SocialVillageSimulator.Parsers
 {
     public interface ICriteriaParser
     {
@@ -41,25 +39,13 @@ namespace Jochum.SocialVillageSimulator.Criteria
             
             if (whatToCheck.Equals("mood"))
             {
-                var parsedMood = GetEnumValue<Mood>(criteriaValue);               
+                var parsedMood = ParserHelper.GetEnumValue<Mood>(criteriaValue);               
                 
                 return who.Mood == parsedMood;
             } else
             {
                 throw new ArgumentException($"Criteria expression cannot parse {whatToCheck}.");
             }
-        }
-        
-        private TEnum GetEnumValue<TEnum> (string value) where TEnum : struct
-        {
-            TEnum parsedType;
-            var successful = Enum.TryParse(value, true, out parsedType);
-            if (!successful)
-            {
-                throw new ArgumentException($"Criteria expression cannot parse {value}");
-            }
-
-            return parsedType;
         }
     }
 }
