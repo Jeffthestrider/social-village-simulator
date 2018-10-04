@@ -33,6 +33,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,19 +48,32 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Character.cs" />
-    <Compile Include="Criteria\CriteriaGenerator.cs" />
-    <Compile Include="Criteria\MoodCriteriaGenerator.cs" />
-    <Compile Include="IInteraction.cs" />
+    <Compile Include="Parsers\ActionParser.cs" />
+    <Compile Include="Parsers\CriteriaParser.cs" />
+    <Compile Include="DataReader\GameDataReader.cs" />
+    <Compile Include="Interactions\InteractionType.cs" />
+    <Compile Include="Parsers\ParserHelper.cs" />
+    <Compile Include="SocialAspects\Gender.cs" />
+    <Compile Include="SocialAspects\Mood.cs" />
+    <Compile Include="SocialAspects\Information.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Response.cs" />
-    <Compile Include="Responses\GreetResponses.cs" />
-    <Compile Include="Responses\ResponseGenerator.cs" />
+    <Compile Include="Interactions\InteractionCategory.cs" />
+    <Compile Include="Interactions\Interaction.cs" />
+    <Compile Include="Interactions\InteractionList.cs" />
+    <Compile Include="Interactions\InteractionGenerator.cs" />
     <Compile Include="Seed.cs" />
     <Compile Include="StringTemplateReplacer.cs" />
+    <Compile Include="SocialAspects\Topic.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Data\Interactions.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

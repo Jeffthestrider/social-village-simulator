@@ -1,32 +1,40 @@
-﻿namespace Jochum.SocialVillageSimulator
+﻿using Jochum.SocialVillageSimulator.Interactions;
+using Jochum.SocialVillageSimulator.SocialAspects;
+
+namespace Jochum.SocialVillageSimulator
 {
     public class Character
     {
+        private IInteractionGenerator _interactionGenerator;
+
+        public bool IsPc { get; set; } 
+
         public string Name { get; set; }
 
         public Mood Mood { get; set; }
 
-        public Response BeInteractedWith<T>(Interaction<T> interaction, Character replyingTo)
+        public Gender Gender { get; set; }
+
+        public Character(IInteractionGenerator interactionGenerator)
         {
-            return Responses.ResponseGenerator.GetResponse(this, interaction, replyingTo);
+            _interactionGenerator = interactionGenerator;
         }
 
-        public Response InteractWith<T>(Interaction<T> interaction, Character speakingTo)
+        public Interaction BeInteractedWith(Interaction interaction, Character replyingTo)
         {
-            var response = speakingTo.BeInteractedWith<T>(interaction, this);
+            // Make changes here
+            
+            return _interactionGenerator.GetResponse(this, interaction, replyingTo);
+        }
 
-            // Knowledge changes, other changes to character from response here.
+        public Interaction InteractWith(Interaction interaction, Character speakingTo)
+        {
+            var response = speakingTo.BeInteractedWith(interaction, this);
+
+            // Make changes here
 
             return response;
         }
 
-    }
-
-    public enum Mood
-    {
-        Happy,
-        Sad,
-        Melancholy,
-        Angry
     }
 }

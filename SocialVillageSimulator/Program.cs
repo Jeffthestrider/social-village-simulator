@@ -1,25 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Jochum.SocialVillageSimulator.Responses;
+using Jochum.SocialVillageSimulator.Interactions;
+using Jochum.SocialVillageSimulator.SocialAspects;
+using Jochum.SocialVillageSimulator.DataReader;
+using Jochum.SocialVillageSimulator.Parsers;
 
 namespace Jochum.SocialVillageSimulator
 {
     class Program
     {
-        static Character CreatePlayer()
+        static Character CreatePlayer(IInteractionGenerator interactionGenerator)
         {
-            return new Character {
+            return new Character(interactionGenerator)
+            {
                 Name = "Jeff",
-                Mood = Mood.Sad
+                Gender = Gender.Male,
+                Mood = Mood.Happy,
+                IsPc = true
             };
         }
 
-        static Character CreateNpc()
+        static Character CreateNpc(IInteractionGenerator interactionGenerator)
         {
-            return new Character {
+            return new Character(interactionGenerator)
+            {
                 Name = "Jill",
-                Mood = Mood.Happy
+                Gender = Gender.Female,
+                Mood = Mood.Happy,
+                IsPc = false
             };
         }
 
@@ -44,8 +53,12 @@ namespace Jochum.SocialVillageSimulator
         {
             MasterRandom.InitializeRandom(4);
 
-            Character player = CreatePlayer();
-            Character npc = CreateNpc();
+            IGameDataReader gameDataReader = new GameDataJsonFileReader("Data\\Interactions.json");
+
+            var interactionGenerator = new InteractionGenerator(gameDataReader.GetInteractions().ToList(), new CriteriaParser());
+
+            Character player = CreatePlayer(interactionGenerator);
+            Character npc = CreateNpc(interactionGenerator);
 
             string npcResponse = "You are standing in front of a villager. She is standing there, looking bored.";
 
@@ -73,12 +86,7 @@ namespace Jochum.SocialVillageSimulator
                 {
                     InteractionType playerChoiceType = (InteractionType)playerChoice;
 
-                    var interaction = new Interaction<string>
-                    {
-                        Dialogue = "Yo",
-                        InteractionType = playerChoiceType,
-                        Further = "Asdfsdf"
-                    };
+                    var interaction = interactionGenerator.GetInteraction(player, playerChoiceType, npc);
 
                     var interactionResult = player.InteractWith(interaction, npc);
 
@@ -86,7 +94,9 @@ namespace Jochum.SocialVillageSimulator
                 }
                 else
                 {
-                    var cantHandleResponse = ResponseGenerator.GetResponse<string>(npc, new Interaction<string> { InteractionType = InteractionType.Invalid }, player);
+                    var invalidCriteria = interactionGenerator.GetInteraction(npc, InteractionType.Invalid, player);
+
+                    var cantHandleResponse = invalidCriteria.GetAFilledInInteraction(npc, player);
 
                     npcResponse = $"{cantHandleResponse.BodyLanguage}\n\n{npc.Name}: {cantHandleResponse.Dialogue}";
                 }
