@@ -1,22 +1,18 @@
 ﻿[
 	{
-		"interactionType" : "Greet",
-		"interactionCategory" : "Neutral",
-		"action" : "SpokenTo.Neutrally.Greet",
-		"interactionCriteriaExpressions" : [["Speaker.Mood.Happy", "SpokenTo.Mood.Sad"]],
+		"actionText" : "SpokenTo.Neutrally.Greet",
+		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
 		"interactions": 
 		[
 			{
-				"name" : "Test",
-				"dialogue" : "Test Dialogue",
-				"bodyLanguage" : "Test Body Language"
+				"name" : "Greet",
+				"dialogue" : "Hello.",
+				"bodyLanguage" : "{MyName} waves."
 			}
 		]
 	},
 	{
-		"interactionType" : "Invalid",
-		"interactionCategory" : "Neutral",
-		"action" : "SpokenTo.Neutrally.BlanksOut",
+		"actionText" : "SpokenTo.Neutrally.BlanksOut",
 		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
 		"interactions" : [
 			{
@@ -27,9 +23,7 @@
 		]
 	},
 	{
-		"interactionType" : "Greet",
-		"interactionCategory" : "Positive",
-		"action" : "SpokenTo.Positively.Greet",
+		"actionText" : "SpokenTo.Positively.GreetBack",
 		"interactionCriteriaExpressions" : [["Speaker.Mood.Happy"]],
 		"interactions" : 
 		[
@@ -52,9 +46,7 @@
 		]
 	},
 	{
-		"interactionType" : "Greet",
-		"interactionCategory" : "Neutral",
-		"action" : "SpokenTo.Neutrally.Greet",
+		"actionText" : "SpokenTo.Neutrally.GreetBack",
 		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
 		"interactions" : 
 		[
@@ -72,9 +64,7 @@
 		]
 	},
 	{
-		"interactionType" : "Greet",
-		"interactionCategory" : "Negative",
-		"action" : "SpokenTo.Negatively.Greet",
+		"actionText" : "SpokenTo.Negatively.GreetBack",
 		"interactionCriteriaExpressions" : [["Speaker.Mood.Angry"]],
 		"interactions" : 
 		[
@@ -86,9 +76,7 @@
 		]
 	},
 	{
-		"interactionType" : "Greet",
-		"interactionCategory" : "Neutral",
-		"action" : "SpokenTo.Neutrally.Greet",
+		"actionText" : "SpokenTo.Neutrally.GreetBack",
 		"interactionCriteriaExpressions" : [["SpokenTo.Mood.Sad"]],
 		"interactions" : 
 		[
@@ -100,16 +88,26 @@
 		]
 	},
 	{
-		"interactionType" : "Introduce",
-		"interactionCategory" : "Positive",
-		"action" : "SpokenTo.Positively.Introduce",
-		"interactionCriteriaExpressions" : [["Speaker.Mood.Happy"]],
+		"actionText" : "SpokenTo.Positively.Introduce",
+		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
 		"interactions" : 
 		[
 			{
 				"name" : "HappyIntroduction1",
 				"dialogue" : "My name is {MyName}.",
 				"bodyLanguage" : "{MyGenderSubject} bows and flourishes {MyGenderPossessiveAdjective} hand. Well, you assume it's {MyGenderPossessivePronoun}. {MyGenderSubject} steals hands all the time. You don't really like {MyGenderObject}."
+			}
+		]
+	},
+	{
+		"actionText" : "SpokenTo.Neutrally.GetToKnow",
+		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
+		"interactions" : 
+		[
+			{
+				"name" : "GetToKnow1",
+				"dialogue" : "Tell me about yourself.",
+				"bodyLanguage" : ""
 			}
 		]
 	}

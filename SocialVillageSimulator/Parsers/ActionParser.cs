@@ -12,7 +12,20 @@ namespace Jochum.SocialVillageSimulator.Parsers
         BlanksOut,
         Greet,
         GreetBack,
-        Introduce
+        Introduce,
+        GetToKnow
+        /*
+        Invalid,
+        Greet,
+        Introduce,
+        Farewell,
+        GetToKnow,
+        Information,
+        ShareWith,
+        Request,
+        Give,
+        Thank,
+        Threaten,*/
     }
 
     public enum ActionAdverb
@@ -20,6 +33,14 @@ namespace Jochum.SocialVillageSimulator.Parsers
         Positively,
         Negatively,
         Neutrally,
+        /*
+        Positive,
+        Neutral,
+        Negative,
+        DetailedAnswer,
+        BriefAnswer,
+        RefuseAnswer,
+        DoNotHaveAnswer,*/
     }
 
     public class Action<TObject>

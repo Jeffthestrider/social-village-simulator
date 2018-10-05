@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Jochum.SocialVillageSimulator.Interactions;
+using Jochum.SocialVillageSimulator.Parsers;
 
 namespace Jochum.SocialVillageSimulator.DataReader
 {
@@ -27,12 +28,10 @@ namespace Jochum.SocialVillageSimulator.DataReader
         private struct InteractionCriteriaJsonModel
         {
             public IList<IList<string>> InteractionCriteriaExpressions { get; set; }
-            public InteractionType InteractionType { get; set; }
-            public InteractionCategory InteractionCategory { get; set; }
             public IList<InteractionJsonModel> Interactions { get; set; }
+            public string ActionText { get; set; }
         }
-
-
+        
         private readonly string _interactionFilename;
         
         public GameDataJsonFileReader(string interactionFilename)
@@ -50,11 +49,10 @@ namespace Jochum.SocialVillageSimulator.DataReader
                 {
                     yield return new Interaction
                     {
+                        ActionText = interactionCriteriaJsonModel.ActionText,
                         BodyLanguage = interactionJsonModel.BodyLanguage,
                         Dialogue = interactionJsonModel.Dialogue,
                         Name = interactionJsonModel.Name,
-                        InteractionCategory = interactionCriteriaJsonModel.InteractionCategory,
-                        InteractionType = interactionCriteriaJsonModel.InteractionType,
                         InteractionCriteriaExpressions = interactionCriteriaJsonModel.InteractionCriteriaExpressions
                     };
                 }

@@ -9,30 +9,34 @@ namespace Jochum.SocialVillageSimulator.Interactions
 
     public interface IInteractionGenerator
     {
-        Interaction GetResponse(Character speaker, Interaction interaction, Character spokenTo);
+        Interaction GetResponse(Character speaker, string actionDoneToSpeakerText, Character spokenTo);
 
-        Interaction GetInteraction(Character speaker, InteractionType interactionType, Character spokenTo);
+        Interaction GetInteraction(Character speaker, string actionText, Character spokenTo);
+
+        Interaction GetInvalidInteraction(Character speaker, Character spokenTo);
     }
 
     public class InteractionGenerator : IInteractionGenerator
     {
         private ICriteriaParser _criteriaParser;
+        private readonly IActionParser _actionParser;
         private IList<Interaction> _interactions;
 
-        public InteractionGenerator(IList<Interaction> interactions, ICriteriaParser criteriaParser)
+        public InteractionGenerator(IList<Interaction> interactions, ICriteriaParser criteriaParser, IActionParser actionParser)
         {
             _interactions = interactions;
 
             _criteriaParser = criteriaParser;
+            _actionParser = actionParser;
         }
 
-        private IList<Interaction> GetPossibleInteractions(InteractionType interactionType)
+        private IList<Interaction> GetRespondingInteractions(ActionVerb actionVerb)
         {
-            var interactionsFilteredByType = _interactions.Where(p => p.InteractionType == interactionType).ToList();
+            var interactionsFilteredByType = _interactions.Where(p => p.ActionText.ToLower().Contains($".{actionVerb.ToString().ToLower()}")).ToList();
 
             if (!interactionsFilteredByType.Any())
             {
-                var invalidInteractions = _interactions.Where(p => p.InteractionType == InteractionType.Invalid).ToList();
+                var invalidInteractions = _interactions.Where(p => p.ActionText.ToLower().Contains($".{ActionVerb.BlanksOut.ToString().ToLower()}")).ToList();
 
                 return invalidInteractions;
             }
@@ -40,33 +44,55 @@ namespace Jochum.SocialVillageSimulator.Interactions
             return interactionsFilteredByType;
         }
 
-        public Interaction GetResponse(Character speaker, Interaction interaction, Character spokenTo)
+        public Interaction GetResponse(Character speaker, string actionDoneToSpeakerText, Character spokenTo)
         {
-            // TODO: This needs a way to get interactions not by speaker's interaction type but by some way the spoken would respond.
 
-            Interaction result = GetInteraction(speaker, interaction.InteractionType, spokenTo);
+            var actionDoneToSpeaker = _actionParser.GetAction<string>(speaker, spokenTo, actionDoneToSpeakerText);
+
+            var respondingVerb = speaker.ResponseMapper.GetResponseVerb(actionDoneToSpeaker.Verb);
+
+            if (respondingVerb == null)
+            {
+                return null;
+            }
+
+            var possibleRespondingInteractions = GetRespondingInteractions(respondingVerb.Value);
+
+            List<Interaction> validRespondingInteractions = GetInteractionsMatchingAllCriteria(speaker, spokenTo, possibleRespondingInteractions)
+                .ToList();
+            
+            Interaction result;
+
+            if (validRespondingInteractions.Any())
+            {
+                result = GetRandomResponse(validRespondingInteractions);
+            }
+            else
+            {
+                result = GetInvalidInteraction(speaker, spokenTo);
+            }
 
             return result.GetAFilledInInteraction(speaker, spokenTo);
         }
 
-        public Interaction GetInteraction(Character speaker, InteractionType interactionType, Character spokenTo)
+        public Interaction GetInteraction(Character speaker, string actionText, Character spokenTo)
         {
-            var possibleInteractions = GetPossibleInteractions(interactionType);
-            List<Interaction> validInteractions = GetInteractionsMatchingAllCriteria(speaker, spokenTo, possibleInteractions)
-                .ToList();
+            var possibleInteractions = _interactions.Where(p => p.ActionText == actionText).ToList();
 
-            Interaction result;
-
-            if (validInteractions.Any())
+            if (possibleInteractions.Any())
             {
-                result = GetRandomResponse(validInteractions);
+                return GetRandomResponse(possibleInteractions).GetAFilledInInteraction(speaker, spokenTo);
             }
             else
             {
-                result = GetInteraction(speaker, InteractionType.Invalid, spokenTo);
+                return null;
             }
 
-            return result;
+        }
+
+        public Interaction GetInvalidInteraction(Character speaker, Character spokenTo)
+        {
+            return GetInteraction(speaker, "SpokenTo.Neutrally.BlanksOut", spokenTo);
         }
 
         private IEnumerable<Interaction> GetInteractionsMatchingAllCriteria(Character speaker, Character spokenTo, 

@@ -5,7 +5,8 @@ namespace Jochum.SocialVillageSimulator
 {
     public class Character
     {
-        private IInteractionGenerator _interactionGenerator;
+        private readonly IInteractionGenerator _interactionGenerator;
+        public IActionResponseMapper ResponseMapper { private set; get; }
 
         public bool IsPc { get; set; } 
 
@@ -15,16 +16,17 @@ namespace Jochum.SocialVillageSimulator
 
         public Gender Gender { get; set; }
 
-        public Character(IInteractionGenerator interactionGenerator)
+        public Character(IInteractionGenerator interactionGenerator, IActionResponseMapper responseMapper)
         {
             _interactionGenerator = interactionGenerator;
+            ResponseMapper = responseMapper;
         }
 
         public Interaction BeInteractedWith(Interaction interaction, Character replyingTo)
         {
             // Make changes here
             
-            return _interactionGenerator.GetResponse(this, interaction, replyingTo);
+            return _interactionGenerator.GetResponse(this, interaction.ActionText, replyingTo);
         }
 
         public Interaction InteractWith(Interaction interaction, Character speakingTo)

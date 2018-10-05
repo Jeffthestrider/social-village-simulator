@@ -14,11 +14,11 @@ namespace SovialVillageSimulator.Tests
         {
             var parser = new CriteriaParser();
 
-            var s = new Character(null)
+            var s = new Character(null, null)
             {
                 Mood = Mood.Happy
             };
-            var st = new Character(null)
+            var st = new Character(null, null)
             {
                 Mood = Mood.Sad
             };
@@ -34,11 +34,11 @@ namespace SovialVillageSimulator.Tests
         {
             var parser = new CriteriaParser();
 
-            var s = new Character(null)
+            var s = new Character(null, null)
             {
                 Mood = Mood.Happy
             };
-            var st = new Character(null)
+            var st = new Character(null, null)
             {
                 Mood = Mood.Melancholy
             };
@@ -54,11 +54,11 @@ namespace SovialVillageSimulator.Tests
         {
             var parser = new CriteriaParser();
 
-            var s = new Character(null)
+            var s = new Character(null, null)
             {
                 Mood = Mood.Happy
             };
-            var st = new Character(null)
+            var st = new Character(null, null)
             {
                 Mood = Mood.Melancholy
             };

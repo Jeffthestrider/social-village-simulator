@@ -7,9 +7,8 @@ namespace Jochum.SocialVillageSimulator.Interactions
         public string Name { get; set; }
         public string Dialogue { get; set; }
         public string BodyLanguage { get; set; }
+        public string ActionText { get; set; }
         public IList<IList<string>> InteractionCriteriaExpressions { get; set; }
-        public InteractionType InteractionType { get; set; }
-        public InteractionCategory InteractionCategory { get; set; }
 
         public Interaction GetAFilledInInteraction(Character speaker, Character spokenTo)
         {
@@ -18,9 +17,8 @@ namespace Jochum.SocialVillageSimulator.Interactions
                 Name = Name,
                 BodyLanguage = StringTemplateReplacer.FillInTemplate(speaker, BodyLanguage, spokenTo),
                 Dialogue = StringTemplateReplacer.FillInTemplate(speaker, Dialogue, spokenTo),
-                InteractionCriteriaExpressions = InteractionCriteriaExpressions,
-                InteractionType = InteractionType,
-                InteractionCategory = InteractionCategory
+                ActionText = ActionText,
+                InteractionCriteriaExpressions = InteractionCriteriaExpressions
             };
         }
     }

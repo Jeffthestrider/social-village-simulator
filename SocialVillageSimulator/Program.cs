@@ -12,7 +12,7 @@ namespace Jochum.SocialVillageSimulator
     {
         static Character CreatePlayer(IInteractionGenerator interactionGenerator)
         {
-            return new Character(interactionGenerator)
+            return new Character(interactionGenerator, new ActionResponseMapper())
             {
                 Name = "Jeff",
                 Gender = Gender.Male,
@@ -23,7 +23,7 @@ namespace Jochum.SocialVillageSimulator
 
         static Character CreateNpc(IInteractionGenerator interactionGenerator)
         {
-            return new Character(interactionGenerator)
+            return new Character(interactionGenerator, new ActionResponseMapper())
             {
                 Name = "Jill",
                 Gender = Gender.Female,
@@ -34,13 +34,13 @@ namespace Jochum.SocialVillageSimulator
 
         static string GetInteractionList()
         {
-            var values = Enum.GetValues(typeof(InteractionType));
+            var values = Enum.GetValues(typeof(ActionVerb));
 
             List<string> options = new List<string>();
 
             foreach (var value in values)
             {
-                options.Add($"{(int)value}: {(InteractionType)value}");
+                options.Add($"{(int)value}: {(ActionVerb)value}");
             }
             
             var result = "Type one of the numbers to initiate a type of interaction.\n\n";
@@ -55,7 +55,10 @@ namespace Jochum.SocialVillageSimulator
 
             IGameDataReader gameDataReader = new GameDataJsonFileReader("Data\\Interactions.json");
 
-            var interactionGenerator = new InteractionGenerator(gameDataReader.GetInteractions().ToList(), new CriteriaParser());
+            var interactionGenerator = new InteractionGenerator(
+                gameDataReader.GetInteractions().ToList(), 
+                new CriteriaParser(),
+                new ActionParser());
 
             Character player = CreatePlayer(interactionGenerator);
             Character npc = CreateNpc(interactionGenerator);
@@ -77,28 +80,38 @@ namespace Jochum.SocialVillageSimulator
                 }
 
                 int playerChoice = 0;
-                var interactionTypeMaxValue = (int)Enum.GetValues(typeof(InteractionType)).Cast<InteractionType>().Last();
+                var interactionTypeMaxValue = (int)Enum.GetValues(typeof(ActionVerb)).Cast<ActionVerb>().Last();
 
                 bool isGood = int.TryParse(playerInput.ToString(), out playerChoice);
-                isGood = playerChoice > 0 && playerChoice <= interactionTypeMaxValue;
+                isGood = isGood && playerChoice > 0 && playerChoice <= interactionTypeMaxValue;
 
                 if (isGood)
                 {
-                    InteractionType playerChoiceType = (InteractionType)playerChoice;
+                    ActionVerb playerChoiceType = (ActionVerb)playerChoice;
 
-                    var interaction = interactionGenerator.GetInteraction(player, playerChoiceType, npc);
+                    var interaction = interactionGenerator.GetInteraction(player, $"SpokenTo.Neutrally.{playerChoiceType.ToString()}", npc);
 
-                    var interactionResult = player.InteractWith(interaction, npc);
+                    if (interaction != null)
+                    {
+                        var interactionResult = player.InteractWith(interaction, npc);
 
-                    npcResponse = $"{interactionResult.BodyLanguage}\n\n{npc.Name}: {interactionResult.Dialogue}";
+                        if (interactionResult != null)
+                        {
+                            npcResponse = $"{interactionResult.BodyLanguage}\n\n{npc.Name}: {interactionResult.Dialogue}";
+                        }
+                        else
+                        {
+                            npcResponse = GetInvalidResponse(interactionGenerator, player, npc);
+                        }
+                    }
+                    else
+                    {
+                        npcResponse = GetInvalidResponse(interactionGenerator, player, npc);
+                    }
                 }
                 else
                 {
-                    var invalidCriteria = interactionGenerator.GetInteraction(npc, InteractionType.Invalid, player);
-
-                    var cantHandleResponse = invalidCriteria.GetAFilledInInteraction(npc, player);
-
-                    npcResponse = $"{cantHandleResponse.BodyLanguage}\n\n{npc.Name}: {cantHandleResponse.Dialogue}";
+                    npcResponse = GetInvalidResponse(interactionGenerator, player, npc);
                 }
 
                 WriteResponse(npcResponse);
@@ -106,6 +119,17 @@ namespace Jochum.SocialVillageSimulator
                 playerInput = AskInput();
             }
                 
+        }
+
+        private static string GetInvalidResponse(InteractionGenerator interactionGenerator, Character player, Character npc)
+        {
+            string npcResponse;
+            var invalidCriteria = interactionGenerator.GetInvalidInteraction(npc, player);
+
+            var cantHandleResponse = invalidCriteria;
+
+            npcResponse = $"{cantHandleResponse.BodyLanguage}\n\n{npc.Name}: {cantHandleResponse.Dialogue}";
+            return npcResponse;
         }
 
         private static void WriteResponse(params string[] lines)
