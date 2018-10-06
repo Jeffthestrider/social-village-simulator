@@ -65,7 +65,7 @@ namespace Jochum.SocialVillageSimulator
 
             string npcResponse = "You are standing in front of a villager. She is standing there, looking bored.";
 
-            WriteResponse(npcResponse); 
+            WriteResponse(npcResponse);
 
             char playerInput = AskInput();
 
