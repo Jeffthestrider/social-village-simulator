@@ -1,7 +1,7 @@
 ﻿using Jochum.SocialVillageSimulator.Interactions;
 using Jochum.SocialVillageSimulator.SocialAspects;
 
-namespace Jochum.SocialVillageSimulator
+namespace Jochum.SocialVillageSimulator.GameObjects
 {
     public class Character
     {

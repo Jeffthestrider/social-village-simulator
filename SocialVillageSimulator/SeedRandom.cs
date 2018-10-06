@@ -2,7 +2,7 @@
 
 namespace Jochum.SocialVillageSimulator
 {
-    public static class MasterRandom
+    public static class SeedRandom
     {
         private static Random _rand;
 

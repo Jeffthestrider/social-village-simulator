@@ -3,64 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Jochum.SocialVillageSimulator.Interactions;
 
 namespace Jochum.SocialVillageSimulator.Parsers
 {
-
-    public enum ActionVerb
-    {
-        BlanksOut,
-        Greet,
-        GreetBack,
-        Introduce,
-        GetToKnow
-        /*
-        Invalid,
-        Greet,
-        Introduce,
-        Farewell,
-        GetToKnow,
-        Information,
-        ShareWith,
-        Request,
-        Give,
-        Thank,
-        Threaten,*/
-    }
-
-    public enum ActionAdverb
-    {
-        Positively,
-        Negatively,
-        Neutrally,
-        /*
-        Positive,
-        Neutral,
-        Negative,
-        DetailedAnswer,
-        BriefAnswer,
-        RefuseAnswer,
-        DoNotHaveAnswer,*/
-    }
-
-    public class Action<TObject>
-    {
-        public Character SpokenTo { get; set; }
-        public ActionVerb Verb { get; set; }
-        public ActionAdverb Adverb { get; set; }
-        public TObject Object { get; set; }
-    }
-
-    public interface IActionParser
-    {
-
-        Action<TObject> GetAction<TObject>(Character speaker, Character spokenTo, string actionText);
-
-    }
-
     public class ActionParser : IActionParser
     {
-        public Action<TObject> GetAction<TObject>(Character speaker, Character spokenTo, string actionText)
+        public ParsedAction<TObject> GetAction<TObject>(Character speaker, Character spokenTo, string actionText)
         {
             var actionComponents = actionText.Split('.');
 
@@ -92,7 +41,7 @@ namespace Jochum.SocialVillageSimulator.Parsers
             
             // Ways to handle different objects (items, people, places)
 
-            return new Action<TObject>
+            return new ParsedAction<TObject>
             {
                 Adverb = parsedAdverb,
                 Verb = parsedVerb,
