@@ -1,4 +1,7 @@
-﻿using Jochum.SocialVillageSimulator.Interactions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Jochum.SocialVillageSimulator.Interactions;
 using Jochum.SocialVillageSimulator.SocialAspects;
 
 namespace Jochum.SocialVillageSimulator.GameObjects
@@ -16,10 +19,14 @@ namespace Jochum.SocialVillageSimulator.GameObjects
 
         public Gender Gender { get; set; }
 
+        public IList<Item> Possessions { get; set; }
+
         public Character(IInteractionGenerator interactionGenerator, IActionResponseMapper responseMapper)
         {
             _interactionGenerator = interactionGenerator;
             ResponseMapper = responseMapper;
+
+            Possessions = new List<Item>();
         }
 
         public Interaction BeInteractedWith(Interaction interaction, Character replyingTo)
@@ -38,5 +45,12 @@ namespace Jochum.SocialVillageSimulator.GameObjects
             return response;
         }
 
+        public IList<Item> GetPossessionsOfType(ItemType type)
+        {
+            ItemType itemType = (ItemType) type;
+            
+            return Possessions.Where(p => p.ItemType == type).ToList();
+
+        }
     }
 }

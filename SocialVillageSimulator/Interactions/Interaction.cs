@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Jochum.SocialVillageSimulator.GameObjects;
 
 namespace Jochum.SocialVillageSimulator.Interactions
 {

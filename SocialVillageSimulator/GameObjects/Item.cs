@@ -4,30 +4,18 @@
     {
 
         public string Name { get; set; }
+        public ItemType ItemType { get; set; }
 
     }
 
-    public enum WeaponType
+    public enum ItemType
     {
         Sword,
         Bow,
-        Staff
-    }
-
-    public class Weapon : Item
-    {
-        public WeaponType WeaponType { get; set; }
-    }
-
-    public enum ToolType
-    {
+        Staff,
         Hammer,
         Axe,
-        Pickaxe
-    }
-
-    public class Tool : Item
-    {
-        public ToolType ToolType { get; set; }
+        Pickaxe,
+        Potion
     }
 }

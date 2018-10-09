@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Jochum.SocialVillageSimulator;
+using Jochum.SocialVillageSimulator.GameObjects;
 using Jochum.SocialVillageSimulator.Interactions;
 using Jochum.SocialVillageSimulator.Parsers;
 using Jochum.SocialVillageSimulator.SocialAspects;
@@ -35,7 +36,7 @@ namespace SovialVillageSimulator.Tests
                 Name = name
             };
 
-            var result = parser.GetAction<string>(speaker, spokenTo, "SpokenTo.Neutrally.Greet");
+            var result = parser.GetAction(speaker, spokenTo, "SpokenTo.Neutrally.Greet");
 
             Assert.AreEqual(ActionAdverb.Neutrally, result.Adverb);
             Assert.AreEqual(ActionVerb.Greet, result.Verb);

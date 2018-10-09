@@ -5,7 +5,7 @@
 		"interactions": 
 		[
 			{
-				"name" : "Greet",
+				"name" : "Greet01",
 				"dialogue" : "Hello.",
 				"bodyLanguage" : "{MyName} waves."
 			}
@@ -28,18 +28,18 @@
 		"interactions" : 
 		[
 			{
-				"name" : "GenericHappyGreet1",
+				"name" : "GenericHappyGreet01",
 				"dialogue" : "Hello {Name}!",
 				"bodyLanguage" : "{MyName} waves."
 			},
 			{
 				
-				"name" : "GenericHappyGreet2",
+				"name" : "GenericHappyGreet02",
 				"dialogue" : "Hi {Name}!",
 				"bodyLanguage" : "{MyName} waves."
 			},
 			{
-				"name" : "GenericHappyGreet3",
+				"name" : "GenericHappyGreet03",
 				"dialogue" : "Yo {Name}, good to see you!",
 				"bodyLanguage" : "{MyName} smiles and waves."
 			}
@@ -51,13 +51,13 @@
 		"interactions" : 
 		[
 			{
-				"name" : "GenericNeutralGreet1",
+				"name" : "GenericNeutralGreet01",
 				"dialogue" : "Hey {Name}.",
 				"bodyLanguage" : "{MyName} looks up."
 			},
 			{
 				
-				"name" : "GenericNeutralGreet2",
+				"name" : "GenericNeutralGreet02",
 				"dialogue" : "Hi {Name}.",
 				"bodyLanguage" : "{MyName} glances up."
 			}
@@ -69,7 +69,7 @@
 		"interactions" : 
 		[
 			{
-				"name" : "GenericNegativeGreet1",
+				"name" : "GenericNegativeGreet01",
 				"dialogue" : "What do you want?",
 				"bodyLanguage" : "{MyName} scowls at {NameOrYou}."
 			}
@@ -81,7 +81,7 @@
 		"interactions" : 
 		[
 			{
-				"name" : "NoticingSadGreet1",
+				"name" : "NoticingSadGreet01",
 				"dialogue" : "Hey {Name}, you look down.",
 				"bodyLanguage" : "{MyName} looks at {NameOrYou}."
 			}
@@ -93,7 +93,7 @@
 		"interactions" : 
 		[
 			{
-				"name" : "HappyIntroduction1",
+				"name" : "HappyIntroduction01",
 				"dialogue" : "My name is {MyName}.",
 				"bodyLanguage" : "{MyGenderSubject} bows and flourishes {MyGenderPossessiveAdjective} hand. Well, you assume it's {MyGenderPossessivePronoun}. {MyGenderSubject} steals hands all the time. You don't really like {MyGenderObject}."
 			}
@@ -105,9 +105,53 @@
 		"interactions" : 
 		[
 			{
-				"name" : "GetToKnow1",
+				"name" : "GetToKnow01",
 				"dialogue" : "Tell me about yourself.",
 				"bodyLanguage" : ""
+			}
+		]
+	},
+	{
+		"actionText" : "SpokenTo.Neutrally.RequestItemType",
+		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
+		"interactions" : [
+			{
+				"name" : "NeutralRequest01",
+				"dialogue" : "Do you have a(n) {ItemType} I can have?",
+				"bodyLanguage" : ""
+			}
+		]
+	},
+	{
+		"actionText" : "SpokenTo.Neutrally.GiveItemType",
+		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
+		"interactions" : [
+			{
+				"name" : "NeutralGive01",
+				"dialogue" : "Okay, I'll give my {ItemType} to you.",
+				"bodyLanguage" : "{MyName} thinks on it for a second."
+			}
+		]
+	},
+	{
+		"actionText" : "SpokenTo.Neutrally.RefuseItemType",
+		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
+		"interactions" : [
+			{
+				"name" : "NeutralRefuse01",
+				"dialogue" : "I'm sorry, but I won't give you {ItemType}.",
+				"bodyLanguage" : "{MyName} shakes {MyGenderPossessivePronoun} head."
+			}
+		]
+	},
+	{
+		"actionText" : "SpokenTo.Neutrally.DontHaveItemType",
+		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
+		"interactions" : [
+			{
+				"name" : "NeutralRefuse01",
+				"dialogue" : "I'm sorry, but I don't have a(n) {ItemType}.",
+				"bodyLanguage" : "{MyName} shakes {MyGenderPossessivePronoun} head."
 			}
 		]
 	}

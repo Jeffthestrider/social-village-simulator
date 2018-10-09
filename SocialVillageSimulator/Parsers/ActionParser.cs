@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Jochum.SocialVillageSimulator.GameObjects;
 using Jochum.SocialVillageSimulator.Interactions;
 
 namespace Jochum.SocialVillageSimulator.Parsers
 {
     public class ActionParser : IActionParser
     {
-        public ParsedAction<TObject> GetAction<TObject>(Character speaker, Character spokenTo, string actionText)
+        public ParsedAction GetAction(Character speaker, Character spokenTo, string actionText)
         {
             var actionComponents = actionText.Split('.');
 
             var subjectText = actionComponents[0].ToLower();
             var adverbText = actionComponents[1].ToLower();
             var verbText = actionComponents[2].ToLower();
-            string objectText = string.Empty;
+            string objectText = null;
             if (actionComponents.Length == 4)
                 objectText = actionComponents[3].ToLower();
 
@@ -41,11 +42,11 @@ namespace Jochum.SocialVillageSimulator.Parsers
             
             // Ways to handle different objects (items, people, places)
 
-            return new ParsedAction<TObject>
+            return new ParsedAction
             {
                 Adverb = parsedAdverb,
                 Verb = parsedVerb,
-                Object = default(TObject),
+                Object = objectText,
                 SpokenTo = parsedSubject
             };
         }

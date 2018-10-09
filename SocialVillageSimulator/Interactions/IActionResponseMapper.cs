@@ -1,9 +1,10 @@
-﻿using Jochum.SocialVillageSimulator.Parsers;
+﻿using System.Collections.Generic;
+using Jochum.SocialVillageSimulator.Parsers;
 
 namespace Jochum.SocialVillageSimulator.Interactions
 {
     public interface IActionResponseMapper
     {
-        ActionVerb? GetResponseVerb(ActionVerb verb);
+        IList<ActionVerb> GetResponseVerbs(ActionVerb verb);
     }
 }

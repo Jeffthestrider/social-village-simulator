@@ -4,6 +4,7 @@ using System.Linq;
 using Jochum.SocialVillageSimulator.Interactions;
 using Jochum.SocialVillageSimulator.SocialAspects;
 using Jochum.SocialVillageSimulator.DataReader;
+using Jochum.SocialVillageSimulator.GameObjects;
 using Jochum.SocialVillageSimulator.Parsers;
 
 namespace Jochum.SocialVillageSimulator
@@ -51,7 +52,7 @@ namespace Jochum.SocialVillageSimulator
 
         static void Main(string[] args)
         {
-            MasterRandom.InitializeRandom(4);
+            SeedRandom.InitializeRandom(4);
 
             IGameDataReader gameDataReader = new GameDataJsonFileReader("Data\\Interactions.json");
 
@@ -88,11 +89,20 @@ namespace Jochum.SocialVillageSimulator
                 if (isGood)
                 {
                     ActionVerb playerChoiceType = (ActionVerb)playerChoice;
+                    string objectText = string.Empty;
+
+
+                    if (playerChoiceType == ActionVerb.RequestItemType)
+                    {
+                        objectText = ".Sword";
+                    }
 
                     var interaction = interactionGenerator.GetInteraction(player, $"SpokenTo.Neutrally.{playerChoiceType.ToString()}", npc);
 
                     if (interaction != null)
                     {
+                        interaction.ActionText += objectText;
+
                         var interactionResult = player.InteractWith(interaction, npc);
 
                         if (interactionResult != null)

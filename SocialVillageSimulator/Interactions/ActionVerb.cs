@@ -6,16 +6,18 @@
         Greet,
         GreetBack,
         Introduce,
-        GetToKnow
+        GetToKnow,
+        RequestItemType,
+        GiveItemType,
+        RefuseItemType,
+        DontHaveItemType,
         /*
         Invalid,
         Greet,
         Introduce,
         Farewell,
-        GetToKnow,
         Information,
         ShareWith,
-        Request,
         Give,
         Thank,
         Threaten,*/
