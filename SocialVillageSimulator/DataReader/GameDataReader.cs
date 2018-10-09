@@ -31,11 +31,13 @@ namespace Jochum.SocialVillageSimulator.DataReader
             public IList<InteractionJsonModel> Interactions { get; set; }
             public string ActionText { get; set; }
         }
-        
+
+        private readonly IActionParser _parser;
         private readonly string _interactionFilename;
         
-        public GameDataJsonFileReader(string interactionFilename)
+        public GameDataJsonFileReader(IActionParser parser, string interactionFilename)
         {
+            _parser = parser;
             _interactionFilename = interactionFilename;
         }
 
@@ -49,7 +51,7 @@ namespace Jochum.SocialVillageSimulator.DataReader
                 {
                     yield return new Interaction
                     {
-                        ActionText = interactionCriteriaJsonModel.ActionText,
+                        Action = _parser.GetAction(interactionCriteriaJsonModel.ActionText),
                         BodyLanguage = interactionJsonModel.BodyLanguage,
                         Dialogue = interactionJsonModel.Dialogue,
                         Name = interactionJsonModel.Name,

@@ -33,7 +33,7 @@ namespace Jochum.SocialVillageSimulator.GameObjects
         {
             // Make changes here
             
-            return _interactionGenerator.GetResponse(this, interaction.ActionText, replyingTo);
+            return _interactionGenerator.GetResponse(this, interaction.Action, replyingTo);
         }
 
         public Interaction InteractWith(Interaction interaction, Character speakingTo)

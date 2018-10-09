@@ -54,7 +54,7 @@ namespace Jochum.SocialVillageSimulator
         {
             SeedRandom.InitializeRandom(4);
 
-            IGameDataReader gameDataReader = new GameDataJsonFileReader("Data\\Interactions.json");
+            IGameDataReader gameDataReader = new GameDataJsonFileReader(new ActionParser(), "Data\\Interactions.json");
 
             var interactionGenerator = new InteractionGenerator(
                 gameDataReader.GetInteractions().ToList(), 
@@ -94,14 +94,19 @@ namespace Jochum.SocialVillageSimulator
 
                     if (playerChoiceType == ActionVerb.RequestItemType)
                     {
-                        objectText = ".Sword";
+                        objectText = "Sword";
                     }
 
-                    var interaction = interactionGenerator.GetInteraction(player, $"SpokenTo.Neutrally.{playerChoiceType.ToString()}", npc);
+                    var interaction = interactionGenerator.GetInteraction(
+                        player, 
+                        new ParsedAction {
+                            Adverb = ActionAdverb.Neutrally,
+                            Verb = playerChoiceType}, 
+                        npc);
 
                     if (interaction != null)
                     {
-                        interaction.ActionText += objectText;
+                        interaction.Action.Object = objectText;
 
                         var interactionResult = player.InteractWith(interaction, npc);
 

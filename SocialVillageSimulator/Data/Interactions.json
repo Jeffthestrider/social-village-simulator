@@ -1,6 +1,6 @@
 ﻿[
 	{
-		"actionText" : "SpokenTo.Neutrally.Greet",
+		"actionText" : "Neutrally.Greet",
 		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
 		"interactions": 
 		[
@@ -12,7 +12,7 @@
 		]
 	},
 	{
-		"actionText" : "SpokenTo.Neutrally.BlanksOut",
+		"actionText" : "Neutrally.BlanksOut",
 		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
 		"interactions" : [
 			{
@@ -23,7 +23,7 @@
 		]
 	},
 	{
-		"actionText" : "SpokenTo.Positively.GreetBack",
+		"actionText" : "Positively.GreetBack",
 		"interactionCriteriaExpressions" : [["Speaker.Mood.Happy"]],
 		"interactions" : 
 		[
@@ -46,7 +46,7 @@
 		]
 	},
 	{
-		"actionText" : "SpokenTo.Neutrally.GreetBack",
+		"actionText" : "Neutrally.GreetBack",
 		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
 		"interactions" : 
 		[
@@ -64,7 +64,7 @@
 		]
 	},
 	{
-		"actionText" : "SpokenTo.Negatively.GreetBack",
+		"actionText" : "Negatively.GreetBack",
 		"interactionCriteriaExpressions" : [["Speaker.Mood.Angry"]],
 		"interactions" : 
 		[
@@ -76,7 +76,7 @@
 		]
 	},
 	{
-		"actionText" : "SpokenTo.Neutrally.GreetBack",
+		"actionText" : "Neutrally.GreetBack",
 		"interactionCriteriaExpressions" : [["SpokenTo.Mood.Sad"]],
 		"interactions" : 
 		[
@@ -88,7 +88,7 @@
 		]
 	},
 	{
-		"actionText" : "SpokenTo.Positively.Introduce",
+		"actionText" : "Positively.Introduce",
 		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
 		"interactions" : 
 		[
@@ -100,7 +100,7 @@
 		]
 	},
 	{
-		"actionText" : "SpokenTo.Neutrally.GetToKnow",
+		"actionText" : "Neutrally.GetToKnow",
 		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
 		"interactions" : 
 		[
@@ -112,7 +112,7 @@
 		]
 	},
 	{
-		"actionText" : "SpokenTo.Neutrally.RequestItemType",
+		"actionText" : "Neutrally.RequestItemType",
 		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
 		"interactions" : [
 			{
@@ -123,7 +123,7 @@
 		]
 	},
 	{
-		"actionText" : "SpokenTo.Neutrally.GiveItemType",
+		"actionText" : "Neutrally.GiveItemType",
 		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
 		"interactions" : [
 			{
@@ -134,7 +134,7 @@
 		]
 	},
 	{
-		"actionText" : "SpokenTo.Neutrally.RefuseItemType",
+		"actionText" : "Neutrally.RefuseItemType",
 		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
 		"interactions" : [
 			{
@@ -145,7 +145,7 @@
 		]
 	},
 	{
-		"actionText" : "SpokenTo.Neutrally.DontHaveItemType",
+		"actionText" : "Neutrally.DontHaveItemType",
 		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
 		"interactions" : [
 			{

@@ -10,9 +10,9 @@ namespace Jochum.SocialVillageSimulator.Interactions
 
     public interface IInteractionGenerator
     {
-        Interaction GetResponse(Character speaker, string actionDoneToSpeakerText, Character spokenTo);
+        Interaction GetResponse(Character speaker, ParsedAction actionDoneToSpeaker, Character spokenTo);
 
-        Interaction GetInteraction(Character speaker, string actionText, Character spokenTo);
+        Interaction GetInteraction(Character speaker, ParsedAction action, Character spokenTo);
 
         Interaction GetInvalidInteraction(Character speaker, Character spokenTo);
     }
@@ -33,11 +33,11 @@ namespace Jochum.SocialVillageSimulator.Interactions
 
         private IList<Interaction> GetRespondingInteractions(ActionVerb actionVerb)
         {
-            var interactionsFilteredByType = _interactions.Where(p => p.ActionText.ToLower().Contains($".{actionVerb.ToString().ToLower()}")).ToList();
+            var interactionsFilteredByType = _interactions.Where(p => p.Action.Verb == actionVerb).ToList();
 
             if (!interactionsFilteredByType.Any())
             {
-                var invalidInteractions = _interactions.Where(p => p.ActionText.ToLower().Contains($".{ActionVerb.BlanksOut.ToString().ToLower()}")).ToList();
+                var invalidInteractions = _interactions.Where(p => p.Action.Verb == ActionVerb.BlanksOut).ToList();
 
                 return invalidInteractions;
             }
@@ -45,11 +45,8 @@ namespace Jochum.SocialVillageSimulator.Interactions
             return interactionsFilteredByType;
         }
 
-        public Interaction GetResponse(Character speaker, string actionDoneToSpeakerText, Character spokenTo)
+        public Interaction GetResponse(Character speaker, ParsedAction actionDoneToSpeaker, Character spokenTo)
         {
-
-            var actionDoneToSpeaker = _actionParser.GetAction(speaker, spokenTo, actionDoneToSpeakerText);
-
             var respondingVerbs = speaker.ResponseMapper.GetResponseVerbs(actionDoneToSpeaker.Verb);
 
             if (!respondingVerbs.Any())
@@ -96,20 +93,21 @@ namespace Jochum.SocialVillageSimulator.Interactions
 
                 if (speaker.GetPossessionsOfType(itemType).Any())
                 {
-                    return interactions.Where(p => _actionParser.GetAction(speaker, spokenTo, p.ActionText).Verb != ActionVerb.DontHaveItemType ).ToList();
+                    return interactions.Where(p => p.Action.Verb != ActionVerb.DontHaveItemType ).ToList();
                 }
                 else
                 {
-                    return interactions.Where(p => _actionParser.GetAction(speaker, spokenTo, p.ActionText).Verb == ActionVerb.DontHaveItemType).ToList();
+                    return interactions.Where(p => p.Action.Verb == ActionVerb.DontHaveItemType).ToList();
                 }
             }
 
             return interactions;
         }
 
-        public Interaction GetInteraction(Character speaker, string actionText, Character spokenTo)
+        public Interaction GetInteraction(Character speaker, ParsedAction action, Character spokenTo)
         {
-            var possibleInteractions = _interactions.Where(p => p.ActionText == actionText).ToList();
+            var possibleInteractions = _interactions.Where(p => p.Action.Adverb == action.Adverb 
+                                                                && p.Action.Verb == action.Verb).ToList();
 
             if (possibleInteractions.Any())
             {
@@ -124,7 +122,7 @@ namespace Jochum.SocialVillageSimulator.Interactions
 
         public Interaction GetInvalidInteraction(Character speaker, Character spokenTo)
         {
-            return GetInteraction(speaker, "SpokenTo.Neutrally.BlanksOut", spokenTo);
+            return GetInteraction(speaker, new ParsedAction {Adverb = ActionAdverb.Neutrally, Verb = ActionVerb.BlanksOut}, spokenTo);
         }
 
         private IEnumerable<Interaction> GetInteractionsMatchingAllCriteria(Character speaker, Character spokenTo, 
