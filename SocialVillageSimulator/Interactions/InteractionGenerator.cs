@@ -20,15 +20,17 @@ namespace Jochum.SocialVillageSimulator.Interactions
     public class InteractionGenerator : IInteractionGenerator
     {
         private ICriteriaParser _criteriaParser;
-        private readonly IActionParser _actionParser;
+        private readonly IStringTemplateReplacer _stringTemplateReplacer;
         private IList<Interaction> _interactions;
 
-        public InteractionGenerator(IList<Interaction> interactions, ICriteriaParser criteriaParser, IActionParser actionParser)
+        public InteractionGenerator(IList<Interaction> interactions, 
+            ICriteriaParser criteriaParser, 
+            IStringTemplateReplacer stringTemplateReplacer)
         {
             _interactions = interactions;
 
             _criteriaParser = criteriaParser;
-            _actionParser = actionParser;
+            _stringTemplateReplacer = stringTemplateReplacer;
         }
 
         private IList<Interaction> GetRespondingInteractions(ActionVerb actionVerb)
@@ -60,24 +62,24 @@ namespace Jochum.SocialVillageSimulator.Interactions
                 .ToList();
 
             validRespondingInteractions =
-                GetInteractionsPossibleWithAction(speaker, spokenTo, validRespondingInteractions, actionDoneToSpeaker);
+                GetInteractionsPossibleWithAction(speaker, validRespondingInteractions, actionDoneToSpeaker);
 
             Interaction result;
 
             if (validRespondingInteractions.Any())
             {
                 result = GetRandomResponse(validRespondingInteractions);
+                result.Action.Object = actionDoneToSpeaker.Object;
             }
             else
             {
                 result = GetInvalidInteraction(speaker, spokenTo);
             }
 
-            return result.GetAFilledInInteraction(speaker, spokenTo);
+            return result.GetAFilledInInteraction(_stringTemplateReplacer, speaker, spokenTo);
         }
 
         private List<Interaction> GetInteractionsPossibleWithAction(Character speaker,
-            Character spokenTo,
             List<Interaction> interactions, 
             ParsedAction actionDoneToSpeaker)
         {
@@ -111,7 +113,7 @@ namespace Jochum.SocialVillageSimulator.Interactions
 
             if (possibleInteractions.Any())
             {
-                return GetRandomResponse(possibleInteractions).GetAFilledInInteraction(speaker, spokenTo);
+                return GetRandomResponse(possibleInteractions).GetAFilledInInteraction(_stringTemplateReplacer, speaker, spokenTo);
             }
             else
             {

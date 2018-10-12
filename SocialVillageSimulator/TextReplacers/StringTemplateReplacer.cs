@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Jochum.SocialVillageSimulator.GameObjects;
+using Jochum.SocialVillageSimulator.Interactions;
 
 namespace Jochum.SocialVillageSimulator
 {
-    public static class StringTemplateReplacer
+    public class StringTemplateReplacer : IStringTemplateReplacer
     {
-        static Dictionary<string, Func<Character, string>> templatesForSpeaker = new Dictionary<string, Func<Character, string>>
+        static readonly Dictionary<string, Func<Character, string>> templatesForSpeaker = new Dictionary<string, Func<Character, string>>
         {
             { "{MyName}", speaker => speaker.Name },
 
@@ -22,7 +23,7 @@ namespace Jochum.SocialVillageSimulator
             { "{MyGenderPossessiveAdjective}", speaker => speaker.Gender.ToPossessiveAdjective() },
         };
 
-        static Dictionary<string, Func<Character, string>> templatesForSpokenTo = new Dictionary<string, Func<Character, string>>
+        static readonly Dictionary<string, Func<Character, string>> templatesForSpokenTo = new Dictionary<string, Func<Character, string>>
         {
             { "{Name}", replier => replier.Name },
             { "{NameOrYou}", replier => replier.IsPc ? "you" : replier.Name.ToString() },
@@ -40,7 +41,12 @@ namespace Jochum.SocialVillageSimulator
             { "{GenderPossessiveAdjectiveOrYou}", replier => replier.IsPc ? "yours" : replier.Gender.ToPossessiveAdjective() },
         };
 
-        public static string FillInTemplate(Character speaker, string templateString, Character spokenTo)
+        static Dictionary<string, Func<ParsedAction, string>> _templatesForActions = new Dictionary<string, Func<ParsedAction, string>>
+        {
+            { "{ItemType}", action => action.Object },
+        };
+
+        public string FillInTemplate(ParsedAction action, Character speaker, string templateString, Character spokenTo)
         {
             var respondeeMatches = Regex.Matches(templateString, "[{][^}]+[}]")
                 .Cast<Match>()
@@ -54,11 +60,18 @@ namespace Jochum.SocialVillageSimulator
 
                 Func<Character, string> replierReplacementFunc = null;
                 templatesForSpokenTo.TryGetValue(match, out replierReplacementFunc);
+                
+                Func<ParsedAction, string> actionReplacementFunc = null;
+                _templatesForActions.TryGetValue(match, out actionReplacementFunc);
 
                 if (speakerReplacementFunc != null)
                     templateString = templateString.Replace(match, speakerReplacementFunc(speaker));
                 else if (replierReplacementFunc != null)
                     templateString = templateString.Replace(match, replierReplacementFunc(spokenTo));
+                else if (actionReplacementFunc != null)
+                {
+                    templateString = templateString.Replace(match, actionReplacementFunc(action));
+                }
             }
 
             return templateString;

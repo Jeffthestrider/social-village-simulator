@@ -51,6 +51,7 @@
     <Compile Include="GameObjects\Item.cs" />
     <Compile Include="Interactions\ParsedAction.cs" />
     <Compile Include="Interactions\ActionAdverb.cs" />
+    <Compile Include="TextReplacers\IStringTemplateReplacer.cs" />
     <Compile Include="Parsers\ActionParser.cs" />
     <Compile Include="Interactions\ActionResponseMapper.cs" />
     <Compile Include="Interactions\ActionVerb.cs" />
@@ -67,7 +68,7 @@
     <Compile Include="Interactions\Interaction.cs" />
     <Compile Include="Interactions\InteractionGenerator.cs" />
     <Compile Include="SeedRandom.cs" />
-    <Compile Include="StringTemplateReplacer.cs" />
+    <Compile Include="TextReplacers\StringTemplateReplacer.cs" />
     <Compile Include="SocialAspects\Topic.cs" />
   </ItemGroup>
   <ItemGroup>

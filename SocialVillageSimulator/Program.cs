@@ -59,7 +59,7 @@ namespace Jochum.SocialVillageSimulator
             var interactionGenerator = new InteractionGenerator(
                 gameDataReader.GetInteractions().ToList(), 
                 new CriteriaParser(),
-                new ActionParser());
+                new StringTemplateReplacer());
 
             Character player = CreatePlayer(interactionGenerator);
             Character npc = CreateNpc(interactionGenerator);
