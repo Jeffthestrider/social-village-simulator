@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -33,17 +34,23 @@ namespace Jochum.SocialVillageSimulator.DataReader
         }
 
         private readonly IActionParser _parser;
-        private readonly string _interactionFilename;
+        private readonly IList<string> _interactionDirectories;
         
-        public GameDataJsonFileReader(IActionParser parser, string interactionFilename)
+        public GameDataJsonFileReader(IActionParser parser, IList<string> interactionDirectories)
         {
             _parser = parser;
-            _interactionFilename = interactionFilename;
+            _interactionDirectories = interactionDirectories;
         }
 
         public IEnumerable<Interaction> GetInteractions()
         {
-            var interactionCriteriaJsonModels = GetGameData<InteractionCriteriaJsonModel>(_interactionFilename);
+            var files = GetListOfFiles();
+            List<InteractionCriteriaJsonModel> interactionCriteriaJsonModels = new List<InteractionCriteriaJsonModel>();
+
+            foreach (var file in files)
+            {
+                interactionCriteriaJsonModels.AddRange(GetGameData<InteractionCriteriaJsonModel>(file));
+            }
 
             foreach (var interactionCriteriaJsonModel in interactionCriteriaJsonModels)
             {
@@ -60,6 +67,24 @@ namespace Jochum.SocialVillageSimulator.DataReader
                 }
             }
 
+        }
+
+        private IList<string> GetListOfFiles()
+        {
+            List<string> jsonFiles = new List<string>();
+
+            foreach (var interactionDirectory in _interactionDirectories)
+            {
+                if (!Directory.Exists(interactionDirectory))
+                    continue;
+
+                var directoryFiles = Directory.EnumerateFiles(interactionDirectory);
+                var directoryJsonFiles = directoryFiles.Where(p => p.ToLower(CultureInfo.InvariantCulture).EndsWith(".json"));
+
+                jsonFiles.AddRange(directoryJsonFiles);
+            }
+
+            return jsonFiles;
         }
 
         private IList<T> GetGameData<T>(string filename)

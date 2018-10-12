@@ -1,0 +1,14 @@
+﻿[
+	{
+		"actionText" : "Neutrally.GetToKnow",
+		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
+		"interactions" : 
+		[
+			{
+				"name" : "GetToKnow01",
+				"dialogue" : "Tell me about yourself.",
+				"bodyLanguage" : ""
+			}
+		]
+	}
+]

@@ -1,0 +1,13 @@
+﻿[
+	{
+		"actionText" : "Neutrally.RequestItemType",
+		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
+		"interactions" : [
+			{
+				"name" : "NeutralRequest01",
+				"dialogue" : "Do you have a(n) {ItemType} I can have?",
+				"bodyLanguage" : ""
+			}
+		]
+	}
+]

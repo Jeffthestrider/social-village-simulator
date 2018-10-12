@@ -1,0 +1,13 @@
+﻿[
+	{
+		"actionText" : "Neutrally.BlanksOut",
+		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
+		"interactions" : [
+			{
+				"name" : "Invalid",
+				"dialogue" : "I'm sorry, my responses are limited. You must ask the right questions.",
+				"bodyLanguage" : "{MyName}'s face goes blank."
+			}
+		]
+	}
+]

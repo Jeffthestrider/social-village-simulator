@@ -1,0 +1,14 @@
+﻿[
+	{
+		"actionText" : "Neutrally.Greet",
+		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
+		"interactions": 
+		[
+			{
+				"name" : "Greet01",
+				"dialogue" : "Hello.",
+				"bodyLanguage" : "{MyName} waves."
+			}
+		]
+	}
+]

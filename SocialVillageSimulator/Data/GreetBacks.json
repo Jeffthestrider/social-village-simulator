@@ -1,0 +1,67 @@
+﻿[
+	{
+		"actionText" : "Positively.GreetBack",
+		"interactionCriteriaExpressions" : [["Speaker.Mood.Happy"]],
+		"interactions" : 
+		[
+			{
+				"name" : "GenericHappyGreet01",
+				"dialogue" : "Hello {Name}!",
+				"bodyLanguage" : "{MyName} waves."
+			},
+			{
+				
+				"name" : "GenericHappyGreet02",
+				"dialogue" : "Hi {Name}!",
+				"bodyLanguage" : "{MyName} waves."
+			},
+			{
+				"name" : "GenericHappyGreet03",
+				"dialogue" : "Yo {Name}, good to see you!",
+				"bodyLanguage" : "{MyName} smiles and waves."
+			}
+		]
+	},
+	{
+		"actionText" : "Neutrally.GreetBack",
+		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
+		"interactions" : 
+		[
+			{
+				"name" : "GenericNeutralGreet01",
+				"dialogue" : "Hey {Name}.",
+				"bodyLanguage" : "{MyName} looks up."
+			},
+			{
+				
+				"name" : "GenericNeutralGreet02",
+				"dialogue" : "Hi {Name}.",
+				"bodyLanguage" : "{MyName} glances up."
+			}
+		]
+	},
+	{
+		"actionText" : "Negatively.GreetBack",
+		"interactionCriteriaExpressions" : [["Speaker.Mood.Angry"]],
+		"interactions" : 
+		[
+			{
+				"name" : "GenericNegativeGreet01",
+				"dialogue" : "What do you want?",
+				"bodyLanguage" : "{MyName} scowls at {NameOrYou}."
+			}
+		]
+	},
+	{
+		"actionText" : "Neutrally.GreetBack",
+		"interactionCriteriaExpressions" : [["SpokenTo.Mood.Sad"]],
+		"interactions" : 
+		[
+			{
+				"name" : "NoticingSadGreet01",
+				"dialogue" : "Hey {Name}, you look down.",
+				"bodyLanguage" : "{MyName} looks at {NameOrYou}."
+			}
+		]
+	}
+]

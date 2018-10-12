@@ -1,0 +1,13 @@
+﻿[
+	{
+		"actionText" : "Neutrally.DontHaveItemType",
+		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
+		"interactions" : [
+			{
+				"name" : "NeutralRefuse01",
+				"dialogue" : "I'm sorry, but I don't have a(n) {ItemType}.",
+				"bodyLanguage" : "{MyName} shakes {MyGenderPossessivePronoun} head."
+			}
+		]
+	}
+]

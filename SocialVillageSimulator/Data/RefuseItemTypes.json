@@ -1,0 +1,13 @@
+﻿[
+	{
+		"actionText" : "Neutrally.RefuseItemType",
+		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
+		"interactions" : [
+			{
+				"name" : "NeutralRefuse01",
+				"dialogue" : "I'm sorry, but I won't give you {ItemType}.",
+				"bodyLanguage" : "{MyName} shakes {MyGenderPossessivePronoun} head."
+			}
+		]
+	}
+]

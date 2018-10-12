@@ -1,0 +1,14 @@
+﻿[
+	{
+		"actionText" : "Positively.Introduce",
+		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
+		"interactions" : 
+		[
+			{
+				"name" : "HappyIntroduction01",
+				"dialogue" : "My name is {MyName}.",
+				"bodyLanguage" : "{MyGenderSubject} bows and flourishes {MyGenderPossessiveAdjective} hand. Well, you assume it's {MyGenderPossessivePronoun}. {MyGenderSubject} steals hands all the time. You don't really like {MyGenderObject}."
+			}
+		]
+	}
+]

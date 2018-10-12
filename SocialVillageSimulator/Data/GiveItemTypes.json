@@ -1,0 +1,13 @@
+﻿[
+	{
+		"actionText" : "Neutrally.GiveItemType",
+		"interactionCriteriaExpressions" : [["AlwaysTrue"]],
+		"interactions" : [
+			{
+				"name" : "NeutralGive01",
+				"dialogue" : "Okay, I'll give my {ItemType} to you.",
+				"bodyLanguage" : "{MyName} thinks on it for a second."
+			}
+		]
+	}
+]
