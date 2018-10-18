@@ -36,11 +36,10 @@ namespace SovialVillageSimulator.Tests
                 Name = name
             };
 
-            var result = parser.GetAction(speaker, spokenTo, "SpokenTo.Neutrally.Greet");
+            var result = parser.GetAction("Neutrally.Greet");
 
             Assert.AreEqual(ActionAdverb.Neutrally, result.Adverb);
             Assert.AreEqual(ActionVerb.Greet, result.Verb);
-            Assert.AreEqual(name, result.SpokenTo.Name);
         }
 
     }

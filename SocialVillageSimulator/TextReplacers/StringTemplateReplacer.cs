@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using AvsAnLib;
 using Jochum.SocialVillageSimulator.GameObjects;
 using Jochum.SocialVillageSimulator.Interactions;
 
@@ -46,14 +47,36 @@ namespace Jochum.SocialVillageSimulator
             { "{ItemType}", action => action.Object },
         };
 
+        private struct TemplateInText
+        {
+            public string Text { get; set; }
+            public int TemplateIndex { get; set; }
+        }
+
+        private static readonly Dictionary<string, Func<TemplateInText, string>> _templatesForGrammarRules = new Dictionary<string, Func<TemplateInText, string>>
+        {
+            { "a(n)", templateInText => {
+                
+                    if (templateInText.TemplateIndex + 5 >= templateInText.Text.Length) return "a";
+                    var textAfter = templateInText.Text.Substring(templateInText.TemplateIndex + 5);
+                    var nonWordMatch = Regex.Match(textAfter, "\\W");
+                    var nonWord = nonWordMatch.Value;
+                    var nonWordIndex = nonWordMatch.Length == 0 ? textAfter.Length : textAfter.IndexOf(nonWord);
+                    var word = textAfter.Substring(0, nonWordIndex);
+                    var result = AvsAn.Query(word);
+                    return result.Article;
+                }
+            },
+        };
+
         public string FillInTemplate(ParsedAction action, Character speaker, string templateString, Character spokenTo)
         {
-            var respondeeMatches = Regex.Matches(templateString, "[{][^}]+[}]")
+            var fillInBlankMatches = Regex.Matches(templateString, "[{][^}]+[}]")
                 .Cast<Match>()
                 .Select(m => m.Value)
                 .ToArray();
 
-            foreach (var match in respondeeMatches)
+            foreach (var match in fillInBlankMatches)
             {
                 Func<Character, string> speakerReplacementFunc = null; ;
                 templatesForSpeaker.TryGetValue(match, out speakerReplacementFunc);
@@ -64,13 +87,35 @@ namespace Jochum.SocialVillageSimulator
                 Func<ParsedAction, string> actionReplacementFunc = null;
                 _templatesForActions.TryGetValue(match, out actionReplacementFunc);
 
+
                 if (speakerReplacementFunc != null)
                     templateString = templateString.Replace(match, speakerReplacementFunc(speaker));
                 else if (replierReplacementFunc != null)
                     templateString = templateString.Replace(match, replierReplacementFunc(spokenTo));
                 else if (actionReplacementFunc != null)
-                {
                     templateString = templateString.Replace(match, actionReplacementFunc(action));
+            }
+
+            var grammarMatches = Regex.Matches(templateString, "a\\(n\\)")
+                .Cast<Match>()
+                .Select(m => m.Value)
+                .ToArray();
+
+
+            foreach (var match in grammarMatches)
+            {
+                Func<TemplateInText, string> grammarReplacementFunc = null;
+                _templatesForGrammarRules.TryGetValue(match, out grammarReplacementFunc);
+
+                if (grammarReplacementFunc != null)
+                {
+                    var grammarTemplateText = new TemplateInText
+                    {
+                        TemplateIndex = templateString.IndexOf(match, StringComparison.Ordinal),
+                        Text = templateString
+                    };
+                    var regex = new Regex(Regex.Escape(match));
+                    templateString = regex.Replace(templateString, grammarReplacementFunc(grammarTemplateText), 1);
                 }
             }
 

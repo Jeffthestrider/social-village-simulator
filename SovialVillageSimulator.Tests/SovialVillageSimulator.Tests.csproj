@@ -53,6 +53,7 @@
     <Compile Include="ActionParserTests.cs" />
     <Compile Include="CriteriaParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StringTemplateReplacerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SocialVillageSimulator\SocialVillageSimulator.csproj">
