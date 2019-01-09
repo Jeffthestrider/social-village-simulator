@@ -95,6 +95,7 @@
     <None Include="Data\DontHaveItemTypes.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Data\Items.json" />
     <None Include="Data\RefuseItemTypes.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

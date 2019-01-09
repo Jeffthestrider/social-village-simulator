@@ -4,6 +4,7 @@
     {
 
         public string Name { get; set; }
+        public bool IsProperNoun { get; set; }
         public ItemType ItemType { get; set; }
 
     }

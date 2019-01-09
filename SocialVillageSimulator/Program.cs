@@ -70,11 +70,30 @@ namespace Jochum.SocialVillageSimulator
 
             char playerInput = AskInput();
 
-            while (playerInput != 'e')
+            while (playerInput != 'e' && playerInput != 'q')
             {
                 if (playerInput == 'h')
                 {
-                    WriteResponse("Press the numbers to choose an interaction. Press e to exit. Press h for help.", npcResponse);
+                    WriteResponse(@"Press the numbers to choose an interaction. 
+e - exit. 
+h - help.
+m - info about you.
+q - exit.
+y - info about the one you're talking to.", npcResponse);
+
+                    playerInput = AskInput();
+                    continue;
+                }
+                if (playerInput == 'm')
+                {
+                    WriteResponse($"You are:\n{player}", npcResponse);
+
+                    playerInput = AskInput();
+                    continue;
+                }
+                if (playerInput == 'y')
+                {
+                    WriteResponse($"The one you are speaking to is:\n{npc}", npcResponse);
 
                     playerInput = AskInput();
                     continue;

@@ -52,5 +52,16 @@ namespace Jochum.SocialVillageSimulator.GameObjects
             return Possessions.Where(p => p.ItemType == type).ToList();
 
         }
+
+        public override string ToString()
+        {
+            var pc = IsPc ? "PC" : "NPC";
+            var possesions = string.Join(", ", Possessions.Select(p => p.Name));
+
+            return $@"{pc} Name: {Name}
+Gender: {Gender}                
+Mood: {Mood}
+Possessions: {possesions}";
+        }
     }
 }

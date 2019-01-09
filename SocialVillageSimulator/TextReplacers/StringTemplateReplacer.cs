@@ -44,7 +44,7 @@ namespace Jochum.SocialVillageSimulator
 
         static Dictionary<string, Func<ParsedAction, string>> _templatesForActions = new Dictionary<string, Func<ParsedAction, string>>
         {
-            { "{ItemType}", action => action.Object },
+            { "{ItemType}", action => action.Object?.ToLower() },
         };
 
         private struct TemplateInText
@@ -55,19 +55,30 @@ namespace Jochum.SocialVillageSimulator
 
         private static readonly Dictionary<string, Func<TemplateInText, string>> _templatesForGrammarRules = new Dictionary<string, Func<TemplateInText, string>>
         {
-            { "a(n)", templateInText => {
-                
-                    if (templateInText.TemplateIndex + 5 >= templateInText.Text.Length) return "a";
-                    var textAfter = templateInText.Text.Substring(templateInText.TemplateIndex + 5);
-                    var nonWordMatch = Regex.Match(textAfter, "\\W");
-                    var nonWord = nonWordMatch.Value;
-                    var nonWordIndex = nonWordMatch.Length == 0 ? textAfter.Length : textAfter.IndexOf(nonWord);
-                    var word = textAfter.Substring(0, nonWordIndex);
-                    var result = AvsAn.Query(word);
-                    return result.Article;
-                }
+            { "a(n)", ReplaceTextWithAOrAn
             },
         };
+
+        private static string ReplaceTextWithAOrAn(TemplateInText templateInText)
+        {
+            if (templateInText.TemplateIndex + 5 >= templateInText.Text.Length)
+                return "a";
+
+            string wordAfterTemplate = GetNextWord(templateInText.Text, templateInText.TemplateIndex + 5);
+
+            var result = AvsAn.Query(wordAfterTemplate);
+            return result.Article;
+        }
+
+        private static string GetNextWord(string text, int index)
+        {
+            var textAfterTemplate = text.Substring(index);
+            var nonWordMatch = Regex.Match(textAfterTemplate, "\\W");
+            var nonWord = nonWordMatch.Value;
+            var nonWordIndex = nonWordMatch.Length == 0 ? textAfterTemplate.Length : textAfterTemplate.IndexOf(nonWord, StringComparison.Ordinal);
+            var word = textAfterTemplate.Substring(0, nonWordIndex);
+            return word;
+        }
 
         public string FillInTemplate(ParsedAction action, Character speaker, string templateString, Character spokenTo)
         {
@@ -118,6 +129,10 @@ namespace Jochum.SocialVillageSimulator
                     templateString = regex.Replace(templateString, grammarReplacementFunc(grammarTemplateText), 1);
                 }
             }
+
+            // Capitalize filled in words for filled interactions.
+            // We can probably move a(an) to just either a/an and find those specific words and double check them.
+            // verb modifiers for plural - first person - second person/singular like take/takes, have/has, do/does etc I hope there is a library for this or at least a list of these verbs
 
             return templateString;
         }

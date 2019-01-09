@@ -1,0 +1,19 @@
+﻿[
+	{
+		"Name" : "iron sword",
+		"ItemType": "Sword"
+	},
+	{
+		"Name" : "wooden sword",
+		"ItemType": "Sword"
+	},
+	{
+		"Name" : "Sword of Destiny",
+		"ItemType": "Sword"
+	},
+	{
+		"Name" : "short bow",
+		"IsProperNoun" :  false,
+		"ItemType": "Bow"
+	},
+]
