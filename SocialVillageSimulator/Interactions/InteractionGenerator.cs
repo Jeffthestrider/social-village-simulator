@@ -79,6 +79,30 @@ namespace Jochum.SocialVillageSimulator.Interactions
             return result.GetAFilledInInteraction(_stringTemplateReplacer, speaker, spokenTo);
         }
 
+        public class WeighedInteraction
+        {
+            public Interaction Interaction { get; set; }
+            public float Weight { get; set; }
+        }
+
+
+        public WeighedInteraction GetMoodWeighedInteraction(Character speaker,
+            Interaction interaction)
+        {
+            var weighedInteraction = new WeighedInteraction
+            {
+                Interaction = interaction,
+                Weight = 1f
+            };
+
+            if (interaction.InteractionCriteriaExpressions.Any(p => p.Any(q => q.Contains("Mood"))))
+            {
+                weighedInteraction.Weight = weighedInteraction.Weight * speaker.MoodModifier;
+            }
+
+            return weighedInteraction;
+        }
+
         private List<Interaction> GetInteractionsPossibleWithAction(Character speaker,
             List<Interaction> interactions, 
             ParsedAction actionDoneToSpeaker)
@@ -140,7 +164,7 @@ namespace Jochum.SocialVillageSimulator.Interactions
         {
             if (list == null) throw new ArgumentNullException(nameof(list));
 
-            return list[SeedRandom.Rand.Next(list.Count)];
+            return list[RandomSeedGenerator.Random.Next(list.Count)];
         }
     }
 }

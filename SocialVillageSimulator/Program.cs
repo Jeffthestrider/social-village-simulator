@@ -18,6 +18,7 @@ namespace Jochum.SocialVillageSimulator
                 Name = "Jeff",
                 Gender = Gender.Male,
                 Mood = Mood.Happy,
+                MoodModifier = 1,
                 IsPc = true
             };
         }
@@ -29,6 +30,7 @@ namespace Jochum.SocialVillageSimulator
                 Name = "Jill",
                 Gender = Gender.Female,
                 Mood = Mood.Happy,
+                MoodModifier = 2,
                 IsPc = false
             };
         }
@@ -52,7 +54,7 @@ namespace Jochum.SocialVillageSimulator
 
         static void Main(string[] args)
         {
-            SeedRandom.InitializeRandom(4);
+            RandomSeedGenerator.InitializeRandom(4);
 
             IGameDataReader gameDataReader = new GameDataJsonFileReader(new ActionParser(), new List<string> { "Data" });
 

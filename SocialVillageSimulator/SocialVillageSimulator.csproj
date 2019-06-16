@@ -71,7 +71,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Interactions\Interaction.cs" />
     <Compile Include="Interactions\InteractionGenerator.cs" />
-    <Compile Include="SeedRandom.cs" />
+    <Compile Include="RandomSeedGenerator.cs" />
     <Compile Include="TextReplacers\StringTemplateReplacer.cs" />
     <Compile Include="SocialAspects\Topic.cs" />
   </ItemGroup>

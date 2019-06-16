@@ -6,16 +6,21 @@ using Jochum.SocialVillageSimulator.SocialAspects;
 
 namespace Jochum.SocialVillageSimulator.GameObjects
 {
-    public class Character
+    public class Character: IEquatable<Character>
     {
         private readonly IInteractionGenerator _interactionGenerator;
+
         public IActionResponseMapper ResponseMapper { private set; get; }
+
+        public int Id { get; set; }
 
         public bool IsPc { get; set; } 
 
         public string Name { get; set; }
 
         public Mood Mood { get; set; }
+
+        public float MoodModifier { get; set; }
 
         public Gender Gender { get; set; }
 
@@ -60,8 +65,28 @@ namespace Jochum.SocialVillageSimulator.GameObjects
 
             return $@"{pc} Name: {Name}
 Gender: {Gender}                
-Mood: {Mood}
+Mood: {Mood}    Mood Modifier: {MoodModifier}
 Possessions: {possesions}";
+        }
+
+        public bool Equals(Character other)
+        {
+            if (ReferenceEquals(null, other)) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Id == other.Id;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Character) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return Id;
         }
     }
 }
